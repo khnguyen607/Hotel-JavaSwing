@@ -6,13 +6,10 @@
 package com.raven.main;
 
 import com.raven.event.EventMenuSelected;
-import View.Form_1;
-import View.Form_2;
-import View.Form_3;
-import View.Form_4;
-import View.Form_Home;
+
 import java.awt.Color;
 import javax.swing.JComponent;
+import Controller.BaseController;
 
 /**
  *
@@ -20,50 +17,37 @@ import javax.swing.JComponent;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
-    private Form_Home home;
-    private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
-    private Form_4 form4;
-
     public Main() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        home = new Form_Home();
-        form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
-        form4 = new Form_4();
+
 
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                switch (index) {
-                    case 1:
-                        setForm(form1);
-                        break;
-                    case 2:
-                        setForm(form2);
-                        break;
-                    case 3:
-                        setForm(form3);
-                        break;
-                    case 4:
-                        setForm(form4);
-                        break;
-                    default:
-                        setForm(home);
-                        break;
-                }
-
+//                switch (index) {
+//                    case 1:
+//                        setForm(form1);
+//                        break;
+//                    case 2:
+//                        setForm(form2);
+//                        break;
+//                    case 3:
+//                        setForm(form3);
+//                        break;
+//                    case 4:
+//                        setForm(form4);
+//                        break;
+//                    default:
+//                        setForm(home);
+//                        break;
+//                }
+            setForm(BaseController.selectForm());
             }
         });
         //  set when system open start with home form
-        setForm(new Form_Home());
+        setForm(BaseController.selectForm());
     }
 
     private void setForm(JComponent com) {
