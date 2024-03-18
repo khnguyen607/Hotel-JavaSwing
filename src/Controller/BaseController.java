@@ -1,31 +1,28 @@
 package Controller;
 
-import View.Form_1;
-import View.Form_2;
-import View.Form_3;
-import View.Form_4;
-import View.Form_Home;
-import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import View.*;
 
 public class BaseController {
 
-    public BaseController() {
+    // Map lưu trữ ánh xạ giữa tên của các lớp và đối tượng instance của chúng
+    private static final Map<String, Object> forms = new HashMap<>();
 
+    static {
+        // Thêm các đối tượng instance vào Map khi khởi tạo
+        forms.put("Home", new Home());
+        forms.put("Form_1", new Form_1());
+        forms.put("Form_2", new Form_2());
+        forms.put("Form_3", new Form_3());
+        forms.put("Form_4", new Form_4());
     }
 
-    public static Form_Home viewForm() {
-        return new Form_Home();
+    // Phương thức để lấy đối tượng instance dựa trên tên của lớp
+    public static Object getView(String viewName) {
+        return forms.get(viewName);
     }
-
-    public static Form_1 viewForm_1() {
-        return new Form_1();
-    }
-
-    public static Form_2 viewForm_2() {
-        return new Form_2();
-    }
-
-    public void Hello() {
-        System.out.println("Hello");
-    }
+    
+    
 }

@@ -1,53 +1,44 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.raven.main;
-
-import com.raven.event.EventMenuSelected;
 
 import java.awt.Color;
 import javax.swing.JComponent;
+
+import com.raven.event.EventMenuSelected;
+import View.*;
 import Controller.BaseController;
 
-/**
- *
- * @author RAVEN
- */
 public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
 
-
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-//                switch (index) {
-//                    case 1:
-//                        setForm(form1);
-//                        break;
-//                    case 2:
-//                        setForm(form2);
-//                        break;
-//                    case 3:
-//                        setForm(form3);
-//                        break;
-//                    case 4:
-//                        setForm(form4);
-//                        break;
-//                    default:
-//                        setForm(home);
-//                        break;
-//                }
-            setForm(BaseController.selectForm());
+                switch (index) {
+                    case 1:
+                        setForm(new Form_1());
+                        break;
+                    case 2:
+                        setForm(new Form_2());
+                        break;
+                    case 3:
+                        setForm(new Form_3());
+                        break;
+                    case 4:
+                        setForm(new Form_4());
+                        break;
+                    default:
+                        setForm(new Home());
+                        break;
+                }
             }
+
         });
         //  set when system open start with home form
-        setForm(BaseController.selectForm());
+        setForm(new Home());
     }
 
     private void setForm(JComponent com) {
