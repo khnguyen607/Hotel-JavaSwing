@@ -65,10 +65,9 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        panelBorder1.setBackground(new java.awt.Color(242, 242, 242));
-
         header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
+        mainPanel.setToolTipText("");
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new java.awt.BorderLayout());
 

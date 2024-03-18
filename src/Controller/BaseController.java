@@ -30,7 +30,6 @@ public class BaseController {
 
     public static void main(String[] args) {
         List<Map<String, Object>> result = getController("CustomerController", "getAll");
-        System.out.println(result);
         // In ra danh sách khách hàng
         for (Map<String, Object> customer : result) {
             System.out.println("ID: " + customer.get("ID") + ", FullName: " + customer.get("FullName"));

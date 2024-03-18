@@ -76,6 +76,7 @@
         </Component>
         <Container class="javax.swing.JPanel" name="mainPanel">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 
