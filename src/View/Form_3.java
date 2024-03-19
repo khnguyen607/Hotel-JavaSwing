@@ -5,10 +5,8 @@
  */
 package View;
 
-/**
- *
- * @author RAVEN
- */
+import javax.swing.*;
+
 public class Form_3 extends javax.swing.JPanel {
 
     /**
@@ -29,7 +27,7 @@ public class Form_3 extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table1 = new com.raven.swing.Table();
-        jButton1 = new javax.swing.JButton();
+        button1 = new javax.swing.JButton();
 
         table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -44,7 +42,12 @@ public class Form_3 extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(table1);
 
-        jButton1.setText("jButton1");
+        button1.setText("jButton1");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,23 +59,27 @@ public class Form_3 extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(button1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(button1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(161, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clicked
+        JOptionPane.showMessageDialog(this, "Login thành công");
+    }//GEN-LAST:event_clicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton button1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.raven.swing.Table table1;
     // End of variables declaration//GEN-END:variables

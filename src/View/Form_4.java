@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import java.util.*;
 
 import Controller.*;
+import javax.swing.JOptionPane;
 
 public class Form_4 extends javax.swing.JPanel {
 
@@ -23,16 +24,20 @@ public class Form_4 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
 
-        List<Map<String, Object>> result = BaseController.getController("CustomerController", "getAll");
+        List<Map<String, Object>> result = BaseController.getAllController("CustomerController", "getAll");
         for (Map<String, Object> customer : result) {
             table.addRow(new Object[]{
                 customer.get("FullName"),
                 customer.get("Phone"),
                 customer.get("Email"),
                 customer.get("Tier"),
-                StatusType.APPROVED
-            });
+                StatusType.APPROVED,
+                customer.get("ID"),});
         }
+
+        table.getColumnModel().getColumn(5).setMinWidth(0);
+        table.getColumnModel().getColumn(5).setMaxWidth(0);
+        table.getColumnModel().getColumn(5).setWidth(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -44,6 +49,7 @@ public class Form_4 extends javax.swing.JPanel {
         spTable = new javax.swing.JScrollPane();
         table = new com.raven.swing.Table();
         button1 = new com.raven.swing.Button();
+        deleteDel = new com.raven.swing.Button();
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -58,18 +64,29 @@ public class Form_4 extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Họ Tên", "Số điện thoại", "Email", "Hạng thành viên", "Thao tác"
+                "Họ Tên", "Số điện thoại", "Email", "Hạng thành viên", "Thao tác", "ID"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         spTable.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(5).setResizable(false);
+            table.getColumnModel().getColumn(5).setPreferredWidth(0);
+        }
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -98,6 +115,13 @@ public class Form_4 extends javax.swing.JPanel {
         button1.setText("Thêm mới");
         button1.setToolTipText("");
 
+        deleteDel.setText("Xóa");
+        deleteDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteDelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,6 +130,8 @@ public class Form_4 extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -115,16 +141,29 @@ public class Form_4 extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void deleteDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDelActionPerformed
+        int row = table.getSelectedRow();
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa khách hàng: " + table.getModel().getValueAt(row, 0), "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            
+        } else {
+            // Người dùng đã chọn "Không", không thực hiện xóa
+        }
+    }//GEN-LAST:event_deleteDelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.swing.Button button1;
+    private com.raven.swing.Button deleteDel;
     private javax.swing.JLabel jLabel1;
     private com.raven.swing.PanelBorder panelBorder1;
     private javax.swing.JScrollPane spTable;
