@@ -26,16 +26,16 @@ public class Home extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
 
-        List<Map<String, Object>> result = CustomerController.getAll();
-        for (Map<String, Object> customer : result) {
-            table.addRow(new Object[]{
-                customer.get("FullName"),
-                customer.get("Phone"),
-                customer.get("Email"),
-                customer.get("Tier"),
-                StatusType.PENDING
-            });
-        }
+//        List<Map<String, Object>> result = Controller.BaseController.getAllController("customers", "getAll");
+//        for (Map<String, Object> customer : result) {
+//            table.addRow(new Object[]{
+//                customer.get("FullName"),
+//                customer.get("Phone"),
+//                customer.get("Email"),
+//                customer.get("Tier"),
+//                StatusType.PENDING
+//            });
+//        }
     }
 
     @SuppressWarnings("unchecked")

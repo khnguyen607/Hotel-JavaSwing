@@ -12,9 +12,9 @@ import java.util.*;
 import Controller.*;
 import javax.swing.JOptionPane;
 
-public class Form_4 extends javax.swing.JPanel {
+public class Customer extends javax.swing.JPanel {
 
-    public Form_4() {
+    public Customer() {
         initComponents();
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -24,7 +24,7 @@ public class Form_4 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
 
-        List<Map<String, Object>> result = BaseController.getAllController("CustomerController", "getAll");
+        List<Map<String, Object>> result = CustomerController.getAll();
         for (Map<String, Object> customer : result) {
             table.addRow(new Object[]{
                 customer.get("FullName"),

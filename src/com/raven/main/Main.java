@@ -28,7 +28,7 @@ public class Main extends javax.swing.JFrame {
                         setForm(new Form_3());
                         break;
                     case 4:
-                        setForm(new Form_4());
+                        setForm(new Customer());
                         break;
                     default:
                         setForm(new Home());
