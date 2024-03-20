@@ -5,7 +5,6 @@ import javax.swing.JComponent;
 
 import com.raven.event.EventMenuSelected;
 import View.*;
-import Controller.BaseController;
 
 public class Main extends javax.swing.JFrame {
 

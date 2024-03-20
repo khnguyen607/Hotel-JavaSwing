@@ -4,14 +4,12 @@ import com.raven.model.Model_Card;
 import com.raven.model.StatusType;
 import com.raven.swing.ScrollBar;
 import java.awt.Color;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import java.util.*;
+import javax.swing.table.DefaultTableModel;
 
 import Controller.*;
-import javax.swing.JOptionPane;
-
+import com.raven.component.FormEdit;
 public class Customer extends javax.swing.JPanel {
 
     public Customer() {
@@ -24,20 +22,13 @@ public class Customer extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
 
-        List<Map<String, Object>> result = CustomerController.getAll();
-        for (Map<String, Object> customer : result) {
-            table.addRow(new Object[]{
-                customer.get("FullName"),
-                customer.get("Phone"),
-                customer.get("Email"),
-                customer.get("Tier"),
-                StatusType.APPROVED,
-                customer.get("ID"),});
-        }
-
+//        ẨN CỘT ID
         table.getColumnModel().getColumn(5).setMinWidth(0);
         table.getColumnModel().getColumn(5).setMaxWidth(0);
         table.getColumnModel().getColumn(5).setWidth(0);
+
+//        HIỂN THỊ DỮ LIỆU LẦN ĐẦU 
+        showDataTable();
     }
 
     @SuppressWarnings("unchecked")
@@ -49,7 +40,10 @@ public class Customer extends javax.swing.JPanel {
         spTable = new javax.swing.JScrollPane();
         table = new com.raven.swing.Table();
         button1 = new com.raven.swing.Button();
-        deleteDel = new com.raven.swing.Button();
+        deleteButton = new com.raven.swing.Button();
+        editButton = new com.raven.swing.Button();
+
+        setName(""); // NOI18N
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -115,10 +109,21 @@ public class Customer extends javax.swing.JPanel {
         button1.setText("Thêm mới");
         button1.setToolTipText("");
 
-        deleteDel.setText("Xóa");
-        deleteDel.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setBackground(new java.awt.Color(253, 83, 83));
+        deleteButton.setForeground(new java.awt.Color(245, 245, 245));
+        deleteButton.setText("Xóa");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteDelActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        editButton.setBackground(new java.awt.Color(30, 180, 114));
+        editButton.setForeground(new java.awt.Color(245, 245, 245));
+        editButton.setText("Sửa thông tin");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
             }
         });
 
@@ -130,7 +135,9 @@ public class Customer extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -143,27 +150,80 @@ public class Customer extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deleteDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDelActionPerformed
+    private void showDataTable() {
+//        XÓA TOÀN BỘ HÀNG HIỆN TẠI
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+//        HIỂN THỊ DỮ LIỆU TRON DATABASE
+        List<Map<String, Object>> result = CustomerController.getAll();
+        for (Map<String, Object> customer : result) {
+            model.addRow(new Object[]{
+                customer.get("FullName"),
+                customer.get("Phone"),
+                customer.get("Email"),
+                customer.get("Tier"),
+                StatusType.APPROVED,
+                customer.get("ID"),});
+        }
+    }
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int row = table.getSelectedRow();
         int dialogResult = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa khách hàng: " + table.getModel().getValueAt(row, 0), "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.YES_OPTION) {
-            
+            Object value = table.getModel().getValueAt(row, 5);
+            int id = Integer.parseInt(value.toString());
+            CustomerController.delete("customers", id);
+            showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
         }
-    }//GEN-LAST:event_deleteDelActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        // Tạo một mảng chứa tùy chọn cho JComboBox
+        String[] options = {"Option 1", "Option 2", "Option 3"};
+
+        // Tạo các thành phần cho hộp thoại
+        JTextField textField = new JTextField();
+        JComboBox<String> comboBox = new JComboBox<>(options);
+
+        // Thiết lập giao diện của hộp thoại
+        JPanel panel = new FormEdit();
+        panel.add(new JLabel("Enter new text:"));
+        panel.add(textField);
+        panel.add(new JLabel("Select an option:"));
+        panel.add(comboBox);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Edit Information", JOptionPane.OK_CANCEL_OPTION);
+//        if (result == JOptionPane.OK_OPTION) {
+//            // Lấy thông tin đã nhập từ các thành phần
+//            String newText = textField.getText();
+//            String selectedOption = (String) comboBox.getSelectedItem();
+//
+//            // Thực hiện xử lý dữ liệu mới ở đây
+//            System.out.println("New text: " + newText);
+//            System.out.println("Selected option: " + selectedOption);
+//        }
+
+    }//GEN-LAST:event_editButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.swing.Button button1;
-    private com.raven.swing.Button deleteDel;
+    private com.raven.swing.Button deleteButton;
+    private com.raven.swing.Button editButton;
     private javax.swing.JLabel jLabel1;
     private com.raven.swing.PanelBorder panelBorder1;
     private javax.swing.JScrollPane spTable;
