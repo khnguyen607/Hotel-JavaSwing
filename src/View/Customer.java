@@ -9,7 +9,8 @@ import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.*;
-import com.raven.component.FormEdit;
+import com.raven.component.CreateOrEditForm;
+
 public class Customer extends javax.swing.JPanel {
 
     public Customer() {
@@ -46,6 +47,7 @@ public class Customer extends javax.swing.JPanel {
         setName(""); // NOI18N
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
+        panelBorder1.setFont(new java.awt.Font("Cascadia Mono", 0, 12)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
@@ -53,6 +55,7 @@ public class Customer extends javax.swing.JPanel {
 
         spTable.setBorder(null);
 
+        table.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -76,6 +79,7 @@ public class Customer extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setRowHeight(40);
         spTable.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(5).setResizable(false);
@@ -89,10 +93,9 @@ public class Customer extends javax.swing.JPanel {
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spTable, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(761, Short.MAX_VALUE))))
+                    .addComponent(spTable, javax.swing.GroupLayout.PREFERRED_SIZE, 849, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,10 +111,12 @@ public class Customer extends javax.swing.JPanel {
         button1.setForeground(new java.awt.Color(245, 245, 245));
         button1.setText("Thêm mới");
         button1.setToolTipText("");
+        button1.setFont(new java.awt.Font("Cascadia Mono", 0, 12)); // NOI18N
 
         deleteButton.setBackground(new java.awt.Color(253, 83, 83));
         deleteButton.setForeground(new java.awt.Color(245, 245, 245));
         deleteButton.setText("Xóa");
+        deleteButton.setFont(new java.awt.Font("Cascadia Mono", 0, 12)); // NOI18N
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -121,6 +126,7 @@ public class Customer extends javax.swing.JPanel {
         editButton.setBackground(new java.awt.Color(30, 180, 114));
         editButton.setForeground(new java.awt.Color(245, 245, 245));
         editButton.setText("Sửa thông tin");
+        editButton.setFont(new java.awt.Font("Cascadia Mono", 0, 12)); // NOI18N
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
@@ -134,7 +140,7 @@ public class Customer extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(626, Short.MAX_VALUE)
                         .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,7 +149,7 @@ public class Customer extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(20, 20, 20))
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +187,9 @@ public class Customer extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int row = table.getSelectedRow();
+        if (row == -1){
+            return;
+        }
         int dialogResult = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa khách hàng: " + table.getModel().getValueAt(row, 0), "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, 5);
@@ -200,12 +209,13 @@ public class Customer extends javax.swing.JPanel {
         JTextField textField = new JTextField();
         JComboBox<String> comboBox = new JComboBox<>(options);
 
-        // Thiết lập giao diện của hộp thoại
-        JPanel panel = new FormEdit();
-        panel.add(new JLabel("Enter new text:"));
-        panel.add(textField);
-        panel.add(new JLabel("Select an option:"));
-        panel.add(comboBox);
+        CreateOrEditForm panel = new CreateOrEditForm(); // Ép kiểu đối tượng từ JPanel sang FormEdit
+//        panel.test("hi");
+//        panel.test("hi");
+//        panel.add(new JLabel("Enter new text:"));
+//        panel.add(textField);
+//        panel.add(new JLabel("Select an option:"));
+//        panel.add(comboBox);
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Edit Information", JOptionPane.OK_CANCEL_OPTION);
 //        if (result == JOptionPane.OK_OPTION) {
