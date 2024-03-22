@@ -13,16 +13,16 @@ public class CustomerController {
         return CustomerModel.mGetAll();
     }
 
-    public static void delete(String tableName, int id) {
-        CustomerModel.bmDelete(tableName, id);
+    public static void delete(int id) {
+        CustomerModel.mDelete(id);
     }
 
-    public static void insert(String tableName, Map<String, Object> data) {
-        CustomerModel.mInsert(tableName, data);
+    public static void insert(Map<String, Object> data) {
+        CustomerModel.mInsert(data);
     }
 
-    public static void update(String tableName, int id, Map<String, Object> data) {
-        CustomerModel.mUpdate(tableName, id, data);
+    public static void update(int id, Map<String, Object> data) {
+        CustomerModel.mUpdate(id, data);
     }
 
     public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class CustomerController {
         }
 
 //            XÓA KHÁCH HÀNG 
-//        deleteById("customers", 1);
+        delete(1);
 //            THÊM KHÁCH HÀNG
 //        Map<String, Object> data = new HashMap<String, Object>() {
 //            {

@@ -6,26 +6,27 @@ import java.util.*;
 import Core.ConnectDB;
 
 public class CustomerModel extends BaseModel {
-
+    private static final String TABLE_NAME = "guests";
+    
     public static List<Map<String, Object>> mGetAll() {
-        return bmGetAll("customers");
+        return bmGetAll(TABLE_NAME);
     }
 
-    public static void mDelete(String tableName, int id) {
-        bmDelete(tableName, id);
+    public static void mDelete(int id) {
+        bmDelete(TABLE_NAME, id);
     }
 
-    public static void mInsert(String tableName, Map<String, Object> data) {
-        if (tableName == null || tableName.isEmpty() || data == null || data.isEmpty()) {
+    public static void mInsert(Map<String, Object> data) {
+        if (TABLE_NAME == null || TABLE_NAME.isEmpty() || data == null || data.isEmpty()) {
             return; // Dừng phương thức nếu các tham số không hợp lệ
         }
-        bmInsert(tableName, data);
+        bmInsert(TABLE_NAME, data);
     }
 
-    public static void mUpdate(String tableName, int id, Map<String, Object> data) {
-        if (tableName == null || tableName.isEmpty() || data == null || data.isEmpty()) {
+    public static void mUpdate(int id, Map<String, Object> data) {
+        if (TABLE_NAME == null || TABLE_NAME.isEmpty() || data == null || data.isEmpty()) {
             return; // Dừng phương thức nếu các tham số không hợp lệ
         }
-        bmUpdate(tableName, id, data);
+        bmUpdate(TABLE_NAME, id, data);
     }
 }

@@ -11,8 +11,7 @@ import com.raven.component.CreateOrEditForm;
 
 public class Customer extends javax.swing.JPanel {
 
-    private String tableName = "customers";
-    private String[] labels = {
+    private final String[] labels = {
         "Họ và tên:",
         "Số điện thoại:",
         "Email:",
@@ -226,9 +225,9 @@ public class Customer extends javax.swing.JPanel {
                 JOptionPane.YES_NO_OPTION
         );
         if (dialogResult == JOptionPane.YES_OPTION) {
-            Object value = table.getModel().getValueAt(row, 5);
+            Object value = table.getModel().getValueAt(row, 4);
             int id = Integer.parseInt(value.toString());
-            CustomerController.delete("customers", id);
+            CustomerController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -269,7 +268,7 @@ public class Customer extends javax.swing.JPanel {
                     put("Tier", input[3]);
                 }
             };
-            CustomerController.update(tableName, id, data);
+            CustomerController.update(id, data);
             showDataTable();
         }
 
@@ -294,7 +293,7 @@ public class Customer extends javax.swing.JPanel {
                     put("Tier", input[3]);
                 }
             };
-            CustomerController.insert(tableName, data);
+            CustomerController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
