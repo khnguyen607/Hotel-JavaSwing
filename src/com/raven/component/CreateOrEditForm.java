@@ -10,33 +10,49 @@ import com.raven.model.TextField;
 
 public class CreateOrEditForm extends JPanel {
 
-    private JFormattedTextField[] textFields;
-    private MaskFormatter formatter = null;
+    private JTextField[] textFields;
 
-    private void formatField(String dataTpe) {
-        String fm = null;
-        switch (dataTpe) {
+    private void formatField(String dataType, int i) {
+        switch (dataType) {
             case "String":
-                fm = "*".repeat(255);
+                textFields[i] = new JFormattedTextField();
                 break;
             case "Number":
-                fm = "#".repeat(5);
+                textFields[i] = new JFormattedTextField();
+                ((AbstractDocument) textFields[i].getDocument()).setDocumentFilter(new DocumentFilter() {
+                    @Override
+                    public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                        if (string.matches("\\d+")) { // Chỉ chấp nhận ký tự số
+                            super.insertString(fb, offset, string, attr);
+                        }
+                    }
+
+                    @Override
+                    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                        if (text.matches("\\d+")) { // Chỉ chấp nhận ký tự số
+                            super.replace(fb, offset, length, text, attrs);
+                        }
+                    }
+                });
+
                 break;
             case "Phone":
-                fm = "(+##) ### ### ###";
+                try {
+                    textFields[i] = new JFormattedTextField(new MaskFormatter("(+##) ### ### ###"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "Date":
-                fm = "####-##-## ##:##:##";
+                try {
+                    textFields[i] = new JFormattedTextField(new MaskFormatter("####-##-## ##:##:##"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 System.out.println("Lựa chọn không hợp lệ");
                 break;
-        }
-        try {
-            formatter = new MaskFormatter(fm);
-//            formatter.setPlaceholderCharacter('_'); // Ký tự thay thế cho các ký tự đầu vào
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
     }
@@ -44,25 +60,21 @@ public class CreateOrEditForm extends JPanel {
     public CreateOrEditForm(TextField[] labels) {
         setLayout(new GridLayout(labels.length, 2));
         textFields = new JFormattedTextField[labels.length];
+        
         for (int i = 0; i < labels.length; i++) {
             add(new JLabel(labels[i].getLabel()));
-            formatField(labels[i].getType());
-            JFormattedTextField textField = new JFormattedTextField(formatter);
-            textField.setColumns(10);
-            add(textField);
-            textFields[i] = textField;
-
+            formatField(labels[i].getType(), i);
+            textFields[i].setColumns(10);
+            add(textFields[i]);
+            
+            JTextField textField = textFields[i];
             textField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-//                    SwingUtilities.invokeLater(() -> {
-//                        textField.setCaretPosition(textField.getText().trim().length()); // Di chuyển con trỏ về vị trí cuối cùng
-//                    });
-                    int start = 0; // Vị trí bắt đầu bôi đen
-                    int end = textField.getText().trim().length();   // Vị trí kết thúc bôi đen
-                    textField.setSelectionStart(start); // Thiết lập vị trí bắt đầu bôi đen
-                    textField.setSelectionEnd(end);
+                    // Bôi đen toàn bộ nội dung khi focus vào
+                    textField.selectAll();
                 }
+
             });
         }
     }
@@ -91,7 +103,7 @@ public class CreateOrEditForm extends JPanel {
 
         CreateOrEditForm panel = new CreateOrEditForm(labels);
 
-        // Set data
+//         Set data
         String[] exampleData = {"John Doe", "123456789", "123 Main St", "john@example.com"};
         panel.setData(exampleData);
         int result = JOptionPane.showConfirmDialog(null, panel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION);
