@@ -4,14 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.text.*;
 import java.text.ParseException;
+import java.text.NumberFormat;
 import java.awt.event.*;
 
 import com.raven.model.TextField;
 
-public class CreateOrEditForm extends JPanel {
+public class test extends JPanel {
 
     private JFormattedTextField[] textFields;
     private MaskFormatter formatter = null;
+    private NumberFormatter numberFm = new NumberFormatter(NumberFormat.getInstance());
 
     private void formatField(String dataTpe) {
         String fm = null;
@@ -41,7 +43,7 @@ public class CreateOrEditForm extends JPanel {
 
     }
 
-    public CreateOrEditForm(TextField[] labels) {
+    public test(TextField[] labels) {
         setLayout(new GridLayout(labels.length, 2));
         textFields = new JFormattedTextField[labels.length];
         for (int i = 0; i < labels.length; i++) {
@@ -89,11 +91,11 @@ public class CreateOrEditForm extends JPanel {
             new TextField("Hạng thành viên", "Tier", "Number")
         };
 
-        CreateOrEditForm panel = new CreateOrEditForm(labels);
+        test panel = new test(labels);
 
         // Set data
-        String[] exampleData = {"John Doe", "123456789", "123 Main St", "john@example.com"};
-        panel.setData(exampleData);
+//        String[] exampleData = {"John Doe", "123456789", "123 Main St", "john@example.com"};
+//        panel.setData(exampleData);
         int result = JOptionPane.showConfirmDialog(null, panel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String[] data = panel.getData();

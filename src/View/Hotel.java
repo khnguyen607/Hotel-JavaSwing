@@ -10,17 +10,16 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 
-public class Customer extends javax.swing.JPanel {
+public class Hotel extends javax.swing.JPanel {
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("Họ tên", "FullName", "String"),
-        new TextField("Số điện thoại", "Phone", "Phone"),
-        new TextField("Email", "Email", "String"),
-        new TextField("Hạng thành viên", "Tier", "String")
+        new TextField("Tên khách sạn", "Name", "String"),
+        new TextField("Địa chỉ", "Address", "String"),
+        new TextField("Hạng sao", "Star", "Number"),
     };
     private final int idColumn = textFields.length;
 
-    public Customer() {
+    public Hotel() {
         initComponents();
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -70,14 +69,14 @@ public class Customer extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Họ Tên", "Số điện thoại", "Email", "Hạng thành viên", "ID"
+                "Tên khách sạn", "Địa chỉ", "Hạng sao", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,8 +89,8 @@ public class Customer extends javax.swing.JPanel {
         });
         spTable.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(4).setResizable(false);
-            table.getColumnModel().getColumn(4).setPreferredWidth(0);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(3).setPreferredWidth(0);
         }
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
@@ -203,7 +202,7 @@ public class Customer extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = CustomerController.getAll();
+        List<Map<String, Object>> results = HotelController.getAll();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
@@ -228,7 +227,7 @@ public class Customer extends javax.swing.JPanel {
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, idColumn);
             int id = Integer.parseInt(value.toString());
-            CustomerController.delete(id);
+            HotelController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -263,7 +262,7 @@ public class Customer extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            CustomerController.update(id, data);
+            HotelController.update(id, data);
             showDataTable();
         }
 
@@ -283,7 +282,7 @@ public class Customer extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            CustomerController.insert(data);
+            HotelController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -293,7 +292,7 @@ public class Customer extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = CustomerController.getAll();
+        List<Map<String, Object>> results = HotelController.getAll();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {

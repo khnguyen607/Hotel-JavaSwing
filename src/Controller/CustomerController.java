@@ -35,7 +35,7 @@ public class CustomerController {
         }
 
 //            XÓA KHÁCH HÀNG 
-        delete(1);
+//        delete(1);
 //            THÊM KHÁCH HÀNG
 //        Map<String, Object> data = new HashMap<String, Object>() {
 //            {

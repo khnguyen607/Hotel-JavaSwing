@@ -19,7 +19,7 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 switch (index) {
                     case 1:
-                        setForm(new Form_1());
+                        setForm(new Hotel());
                         break;
                     case 2:
                         setForm(new Form_2());
