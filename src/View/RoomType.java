@@ -12,6 +12,7 @@ import com.raven.model.TextField;
 
 public class RoomType extends javax.swing.JPanel {
 
+    private final String tableName = "Loại phòng";
     private final TextField[] textFields = new TextField[]{
         new TextField("Tên phòng", "Name", "String"),
         new TextField("Thông tin chung", "Description", "String"),
@@ -22,7 +23,10 @@ public class RoomType extends javax.swing.JPanel {
 
     public RoomType() {
         initComponents();
-        //  add row table
+//        Set tên của bảng
+        jLabel1.setText(tableName);
+
+//  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
@@ -63,7 +67,7 @@ public class RoomType extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel1.setText("Khách hàng");
+        jLabel1.setText("Tên bảng");
 
         spTable.setBorder(null);
 

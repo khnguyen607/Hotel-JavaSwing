@@ -12,6 +12,8 @@ import com.raven.model.TextField;
 
 public class Staff extends javax.swing.JPanel {
 
+    private final String tableName = "Nhân viên";
+
     private final TextField[] textFields = new TextField[]{
         new TextField("Tên nhân viên", "FullName", "String"),
         new TextField("Chức vụ", "Position", "String"),
@@ -24,6 +26,8 @@ public class Staff extends javax.swing.JPanel {
 
     public Staff() {
         initComponents();
+        //        Set tên của bảng
+        jLabel1.setText(tableName);
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -65,7 +69,7 @@ public class Staff extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel1.setText("Khách hàng");
+        jLabel1.setText("Tên bảng");
 
         spTable.setBorder(null);
 

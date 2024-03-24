@@ -10,17 +10,18 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 
-public class Hotel extends javax.swing.JPanel {
+public class Room extends javax.swing.JPanel {
 
-    private final String tableName = "Khách sạn";
+    private final String tableName = "Phòng khách sạn";
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("Tên khách sạn", "Name", "String"),
-        new TextField("Địa chỉ", "Address", "String"),
-        new TextField("Hạng sao", "Star", "Number"),};
+        new TextField("ID khách sạn", "HotelID", "Number"),
+        new TextField("ID loại phòng", "RoomTypeID", "Number"),
+        new TextField("Trạng thái", "Status", "String")
+    };
     private final int idColumn = textFields.length;
 
-    public Hotel() {
+    public Room() {
         initComponents();
         //        Set tên của bảng
         jLabel1.setText(tableName);
@@ -179,6 +180,7 @@ public class Hotel extends javax.swing.JPanel {
                 .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
+
     private void setColumn() {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
@@ -202,7 +204,7 @@ public class Hotel extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = HotelController.getAll();
+        List<Map<String, Object>> results = RoomController.getAll();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
@@ -233,7 +235,7 @@ public class Hotel extends javax.swing.JPanel {
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, idColumn);
             int id = Integer.parseInt(value.toString());
-            HotelController.delete(id);
+            RoomController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -274,7 +276,7 @@ public class Hotel extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            HotelController.update(id, data);
+            RoomController.update(id, data);
             showDataTable();
         }
 
@@ -294,7 +296,7 @@ public class Hotel extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            HotelController.insert(data);
+            RoomController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -304,7 +306,7 @@ public class Hotel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = HotelController.getAll();
+        List<Map<String, Object>> results = RoomController.getAll();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {

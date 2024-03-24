@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Customer.java</file>
-            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/com/raven/component/CreateOrEditForm.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Staff.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/RoomType.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/Model/RoomModel.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/Controller/RoomController.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Guest.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/com/raven/main/Main.java</file>
             <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Hotel.java</file>
-            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/Model/HotelModel.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Room.java</file>
         </group>
     </open-files>
 </project-private>

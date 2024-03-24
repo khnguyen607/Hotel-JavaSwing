@@ -11,7 +11,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
-        
+
         setBackground(new Color(0, 0, 0, 0));
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -28,7 +28,10 @@ public class Main extends javax.swing.JFrame {
                         setForm(new RoomType());
                         break;
                     case 4:
-                        setForm(new Guest());
+                        setForm(new Staff());
+                        break;
+                    case 8:
+                        setForm(new Room());
                         break;
                     default:
                         setForm(new Home());

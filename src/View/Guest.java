@@ -12,6 +12,8 @@ import com.raven.model.TextField;
 
 public class Guest extends javax.swing.JPanel {
 
+    private final String tableName = "Khách hàng";
+
     private final TextField[] textFields = new TextField[]{
         new TextField("Họ tên", "FullName", "String"),
         new TextField("Số điện thoại", "Phone", "Phone"),
@@ -22,6 +24,8 @@ public class Guest extends javax.swing.JPanel {
 
     public Guest() {
         initComponents();
+        //        Set tên của bảng
+        jLabel1.setText(tableName);
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -29,10 +33,10 @@ public class Guest extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        
+
 //        TẠO CÁC CỘT
         setColumn();
-        
+
 //        ẨN CỘT ID
         table.getColumnModel().getColumn(idColumn).setMinWidth(0);
         table.getColumnModel().getColumn(idColumn).setMaxWidth(0);
@@ -178,7 +182,7 @@ public class Guest extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-        private void setColumn() {
+    private void setColumn() {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
         columnNames[textFields.length] = "ID";
