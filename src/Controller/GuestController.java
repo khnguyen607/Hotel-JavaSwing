@@ -3,26 +3,26 @@ package Controller;
 import Model.*;
 import java.util.*;
 
-public class CustomerController {
+public class GuestController {
     
-    public CustomerController() {
+    public GuestController() {
         System.out.println("Run CustomerController..");
     }
 
     public static List<Map<String, Object>> getAll() {
-        return CustomerModel.mGetAll();
+        return GuestModel.mGetAll();
     }
 
     public static void delete(int id) {
-        CustomerModel.mDelete(id);
+        GuestModel.mDelete(id);
     }
 
     public static void insert(Map<String, Object> data) {
-        CustomerModel.mInsert(data);
+        GuestModel.mInsert(data);
     }
 
     public static void update(int id, Map<String, Object> data) {
-        CustomerModel.mUpdate(id, data);
+        GuestModel.mUpdate(id, data);
     }
 
     public static void main(String[] args) {

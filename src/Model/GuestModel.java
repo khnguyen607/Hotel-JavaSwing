@@ -5,7 +5,7 @@ import java.util.*;
 
 import Core.ConnectDB;
 
-public class CustomerModel extends BaseModel {
+public class GuestModel extends BaseModel {
     private static final String TABLE_NAME = "guests";
     
     public static List<Map<String, Object>> mGetAll() {

@@ -10,7 +10,7 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 
-public class Customer extends javax.swing.JPanel {
+public class Guest extends javax.swing.JPanel {
 
     private final TextField[] textFields = new TextField[]{
         new TextField("Họ tên", "FullName", "String"),
@@ -20,7 +20,7 @@ public class Customer extends javax.swing.JPanel {
     };
     private final int idColumn = textFields.length;
 
-    public Customer() {
+    public Guest() {
         initComponents();
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -203,7 +203,7 @@ public class Customer extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = CustomerController.getAll();
+        List<Map<String, Object>> results = GuestController.getAll();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
@@ -217,6 +217,12 @@ public class Customer extends javax.swing.JPanel {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int row = table.getSelectedRow();
         if (row == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Vui lòng chọn nội dung!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
         int dialogResult = JOptionPane.showConfirmDialog(
@@ -228,7 +234,7 @@ public class Customer extends javax.swing.JPanel {
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, idColumn);
             int id = Integer.parseInt(value.toString());
-            CustomerController.delete(id);
+            GuestController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -238,6 +244,12 @@ public class Customer extends javax.swing.JPanel {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int row = table.getSelectedRow();
         if (row == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Vui lòng chọn nội dung!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
         Object value = table.getModel().getValueAt(row, idColumn);
@@ -263,7 +275,7 @@ public class Customer extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            CustomerController.update(id, data);
+            GuestController.update(id, data);
             showDataTable();
         }
 
@@ -283,7 +295,7 @@ public class Customer extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            CustomerController.insert(data);
+            GuestController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -293,7 +305,7 @@ public class Customer extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = CustomerController.getAll();
+        List<Map<String, Object>> results = GuestController.getAll();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {

@@ -15,8 +15,7 @@ public class Hotel extends javax.swing.JPanel {
     private final TextField[] textFields = new TextField[]{
         new TextField("Tên khách sạn", "Name", "String"),
         new TextField("Địa chỉ", "Address", "String"),
-        new TextField("Hạng sao", "Star", "Number"),
-    };
+        new TextField("Hạng sao", "Star", "Number"),};
     private final int idColumn = textFields.length;
 
     public Hotel() {
@@ -216,6 +215,12 @@ public class Hotel extends javax.swing.JPanel {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int row = table.getSelectedRow();
         if (row == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Vui lòng chọn nội dung!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
         int dialogResult = JOptionPane.showConfirmDialog(
@@ -237,6 +242,12 @@ public class Hotel extends javax.swing.JPanel {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int row = table.getSelectedRow();
         if (row == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Vui lòng chọn nội dung!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
         Object value = table.getModel().getValueAt(row, idColumn);
