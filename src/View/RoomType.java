@@ -10,17 +10,17 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 
-public class Guest extends javax.swing.JPanel {
+public class RoomType extends javax.swing.JPanel {
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("Họ tên", "FullName", "String"),
-        new TextField("Số điện thoại", "Phone", "Phone"),
-        new TextField("Email", "Email", "String"),
-        new TextField("Hạng thành viên", "Tier", "String")
+        new TextField("Tên phòng", "Name", "String"),
+        new TextField("Thông tin chung", "Description", "String"),
+        new TextField("Giá phòng", "Price", "Number"),
+        new TextField("Sức chứa", "Capicity", "Number")
     };
     private final int idColumn = textFields.length;
 
-    public Guest() {
+    public RoomType() {
         initComponents();
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -29,10 +29,10 @@ public class Guest extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        
+
 //        TẠO CÁC CỘT
         setColumn();
-        
+
 //        ẨN CỘT ID
         table.getColumnModel().getColumn(idColumn).setMinWidth(0);
         table.getColumnModel().getColumn(idColumn).setMaxWidth(0);
@@ -178,7 +178,7 @@ public class Guest extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-        private void setColumn() {
+    private void setColumn() {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
         columnNames[textFields.length] = "ID";
@@ -201,7 +201,7 @@ public class Guest extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = GuestController.getAll();
+        List<Map<String, Object>> results = RoomTypeController.getAll();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
@@ -232,7 +232,7 @@ public class Guest extends javax.swing.JPanel {
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, idColumn);
             int id = Integer.parseInt(value.toString());
-            GuestController.delete(id);
+            RoomTypeController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -273,7 +273,7 @@ public class Guest extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            GuestController.update(id, data);
+            RoomTypeController.update(id, data);
             showDataTable();
         }
 
@@ -293,7 +293,7 @@ public class Guest extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            GuestController.insert(data);
+            RoomTypeController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -303,7 +303,7 @@ public class Guest extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = GuestController.getAll();
+        List<Map<String, Object>> results = RoomTypeController.getAll();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {

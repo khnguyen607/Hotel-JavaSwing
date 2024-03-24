@@ -22,10 +22,10 @@ public class Main extends javax.swing.JFrame {
                         setForm(new Hotel());
                         break;
                     case 2:
-                        setForm(new Form_2());
+                        setForm(new Staff());
                         break;
                     case 3:
-                        setForm(new Form_3());
+                        setForm(new RoomType());
                         break;
                     case 4:
                         setForm(new Guest());

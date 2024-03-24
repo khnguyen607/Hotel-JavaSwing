@@ -27,12 +27,16 @@ public class Hotel extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-
+        
+//        TẠO CÁC CỘT
+        setColumn();
+        
 //        ẨN CỘT ID
         table.getColumnModel().getColumn(idColumn).setMinWidth(0);
         table.getColumnModel().getColumn(idColumn).setMaxWidth(0);
         table.getColumnModel().getColumn(idColumn).setWidth(0);
-
+        
+        
 //        HIỂN THỊ DỮ LIỆU LẦN ĐẦU 
         showDataTable();
     }
@@ -68,29 +72,10 @@ public class Hotel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tên khách sạn", "Địa chỉ", "Hạng sao", "ID"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         spTable.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(3).setResizable(false);
-            table.getColumnModel().getColumn(3).setPreferredWidth(0);
-        }
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -191,6 +176,19 @@ public class Hotel extends javax.swing.JPanel {
                 .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
+    private void setColumn() {
+        // Chuyển List<String> thành mảng String[]
+        String[] columnNames = new String[textFields.length + 1];
+        columnNames[textFields.length] = "ID";
+        for (int i = 0; i < textFields.length; i++) {
+            columnNames[i] = textFields[i].getLabel();
+        }
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                columnNames
+        ));
+    }
 
     private void showDataTable() {
 //        XÓA TOÀN BỘ HÀNG HIỆN TẠI
