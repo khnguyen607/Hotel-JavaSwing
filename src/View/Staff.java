@@ -264,18 +264,6 @@ public class Staff extends javax.swing.JPanel {
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
-        // Tạo một mảng chứa các lựa chọn
-        List<Map<String, Object>> results = HotelController.getAll();
-        String[] options = new String[results.size()];
-        for (int i = 0; i < results.size(); i++) {
-            Map<String, Object> hotel = results.get(i);
-            options[i] = (String) hotel.get("Name");
-        }
-        // Tạo JComboBox và thêm các lựa chọn vào đó
-        JComboBox<String> comboBox = new JComboBox<>(options);
-        comboBox.setSelectedIndex(0); // Chọn mục đầu tiên mặc định
-        panel.replaceTextField(comboBox, 5);
-
 //        SET DATA MẶC ĐỊNH
         String[] defaultDatas = new String[textFields.length];
         for (int i = 0; i < textFields.length; i++) {
@@ -295,7 +283,6 @@ public class Staff extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            data.put("HotelID", HotelController.getHotelID((String) data.get("HotelID")));
             StaffController.update(id, data);
             showDataTable();
         }
@@ -304,18 +291,6 @@ public class Staff extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
-
-        // Tạo một mảng chứa các lựa chọn
-        List<Map<String, Object>> results = HotelController.getAll();
-        String[] options = new String[results.size()];
-        for (int i = 0; i < results.size(); i++) {
-            Map<String, Object> hotel = results.get(i);
-            options[i] = (String) hotel.get("Name");
-        }
-        // Tạo JComboBox và thêm các lựa chọn vào đó
-        JComboBox<String> comboBox = new JComboBox<>(options);
-        comboBox.setSelectedIndex(0); // Chọn mục đầu tiên mặc định
-        panel.replaceTextField(comboBox, 5);
 
         int result = JOptionPane.showConfirmDialog(
                 null,
@@ -330,7 +305,6 @@ public class Staff extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            data.put("HotelID", HotelController.getHotelID((String) data.get("HotelID")));
             StaffController.insert(data);
             showDataTable();
         }

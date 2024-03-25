@@ -20,6 +20,10 @@ public class Hotel extends javax.swing.JPanel {
         new TextField("Hạng sao", "Star", "Number"),};
     private final int idColumn = textFields.length;
 
+    public String getSelectedTable(){
+        return Integer.toString(table.getSelectedRow());
+    }
+    
     public Hotel() {
         initComponents();
         //        Set tên của bảng

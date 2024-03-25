@@ -4,6 +4,7 @@ import java.awt.Color;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
 
 import com.raven.swing.ScrollBar;
 import Controller.*;
@@ -284,6 +285,34 @@ public class Room extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+        
+        JTextField textField = panel.getTextField(1);
+        textField.addMouseListener(new MouseAdapter() {
+            long lastClickTime = 0;
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastClickTime < 300) { // Threshold for double click
+                    handleDoubleClick();
+                }
+                lastClickTime = currentTime;
+            }
+
+            private void handleDoubleClick() {
+                // Handle double click action here
+                Hotel panelHotel = new Hotel();
+                int result = JOptionPane.showConfirmDialog(
+                        null,
+                        panelHotel,
+                        "Thêm mới",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+                if (result == JOptionPane.OK_OPTION) {
+                    textField.setText(panelHotel.getSelectedTable());
+                }
+            }
+        });
+        
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,

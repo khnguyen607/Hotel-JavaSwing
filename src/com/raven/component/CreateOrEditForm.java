@@ -12,7 +12,6 @@ import com.raven.model.TextField;
 public class CreateOrEditForm extends JPanel {
 
     private JTextField[] textFields;
-    private Component[] componentField;
 
     private void formatField(String dataType, int i) {
         switch (dataType) {
@@ -78,26 +77,12 @@ public class CreateOrEditForm extends JPanel {
                 }
             });
         }
-
-        componentField = new Component[labels.length];
-        for (int i = 0; i < labels.length; i++) {
-            componentField[i] = textFields[i];
-        }
-    }
-
-    public void replaceTextField(Component newComponent, int index) {
-        add(newComponent, getComponentZOrder(componentField[index]));
-        remove(componentField[index]);
-        componentField[index] = newComponent;
-        revalidate();
-        repaint();
-
     }
 
     public String[] getData() {
-        String[] data = new String[componentField.length];
-        for (int i = 0; i < componentField.length; i++) {
-            Component component = componentField[i];
+        String[] data = new String[textFields.length];
+        for (int i = 0; i < textFields.length; i++) {
+            Component component = textFields[i];
             if (component instanceof JTextField) {
                 JTextField textField = (JTextField) component;
                 data[i] = textField.getText();
@@ -116,6 +101,9 @@ public class CreateOrEditForm extends JPanel {
         }
     }
 
+    public JTextField getTextField(int index){
+        return textFields[index];
+    }
 //    public static void main(String[] args) {
 //        TextField[] labels = new TextField[]{
 //            new TextField("Họ tên", "FullName", "String"),
