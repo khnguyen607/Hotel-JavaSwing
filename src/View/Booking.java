@@ -10,21 +10,20 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 
-public class Staff extends javax.swing.JPanel {
+public class Booking extends javax.swing.JPanel {
 
-    private final String tableName = "Nhân viên";
+    private final String tableName = "Đặt phòng";
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("Tên nhân viên", "FullName", "String"),
-        new TextField("Chức vụ", "Position", "String"),
-        new TextField("Mức lương", "Salary", "Number"),
-        new TextField("Số điện thoại", "Phone", "Phone"),
-        new TextField("Địa chỉ mail", "Email", "String"),
-        new TextField("Khách sạn làm việc", "HotelID", "Number")
+        new TextField("ID khách hàng", "GuestID", "String"),
+        new TextField("ID phòng", "RoomID", "String"),
+        new TextField("Nhận phòng", "CheckIn", "Date"),
+        new TextField("Trả phòng", "CheckOut", "Date"),
+        new TextField("Tổng phí", "TotalPrice", "Number")
     };
     private final int idColumn = textFields.length;
 
-    public Staff() {
+    public Booking() {
         initComponents();
         //        Set tên của bảng
         jLabel1.setText(tableName);
@@ -43,9 +42,7 @@ public class Staff extends javax.swing.JPanel {
         table.getColumnModel().getColumn(idColumn).setMinWidth(0);
         table.getColumnModel().getColumn(idColumn).setMaxWidth(0);
         table.getColumnModel().getColumn(idColumn).setWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setMinWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setMaxWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setWidth(0);
+
 //        HIỂN THỊ DỮ LIỆU LẦN ĐẦU 
         showDataTable();
     }
@@ -188,9 +185,8 @@ public class Staff extends javax.swing.JPanel {
 
     private void setColumn() {
         // Chuyển List<String> thành mảng String[]
-        String[] columnNames = new String[textFields.length + 2];
+        String[] columnNames = new String[textFields.length + 1];
         columnNames[textFields.length] = "ID";
-        columnNames[textFields.length + 1] = "Khách sạn làm việc";
         for (int i = 0; i < textFields.length; i++) {
             columnNames[i] = textFields[i].getLabel();
         }
@@ -210,11 +206,10 @@ public class Staff extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = StaffController.getAllFK();
+        List<Map<String, Object>> results = BookingController.getAll();
         for (Map<String, Object> result : results) {
-            Object[] fields = new Object[textFields.length + 2];
+            Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
-            fields[idColumn + 1] = result.get("HotelName");
             for (int i = 0; i < textFields.length; i++) {
                 fields[i] = result.get(textFields[i].getField());
             }
@@ -242,7 +237,7 @@ public class Staff extends javax.swing.JPanel {
         if (dialogResult == JOptionPane.YES_OPTION) {
             Object value = table.getModel().getValueAt(row, idColumn);
             int id = Integer.parseInt(value.toString());
-            StaffController.delete(id);
+            BookingController.delete(id);
             showDataTable();
         } else {
             // Người dùng đã chọn "Không", không thực hiện xóa
@@ -264,18 +259,6 @@ public class Staff extends javax.swing.JPanel {
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
-        // Tạo một mảng chứa các lựa chọn
-        List<Map<String, Object>> results = HotelController.getAll();
-        String[] options = new String[results.size()];
-        for (int i = 0; i < results.size(); i++) {
-            Map<String, Object> hotel = results.get(i);
-            options[i] = (String) hotel.get("Name");
-        }
-        // Tạo JComboBox và thêm các lựa chọn vào đó
-        JComboBox<String> comboBox = new JComboBox<>(options);
-        comboBox.setSelectedIndex(0); // Chọn mục đầu tiên mặc định
-        panel.replaceTextField(comboBox, 5);
-
 //        SET DATA MẶC ĐỊNH
         String[] defaultDatas = new String[textFields.length];
         for (int i = 0; i < textFields.length; i++) {
@@ -295,8 +278,7 @@ public class Staff extends javax.swing.JPanel {
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            data.put("HotelID", HotelController.getHotelID((String) data.get("HotelID")));
-            StaffController.update(id, data);
+            BookingController.update(id, data);
             showDataTable();
         }
 
@@ -304,34 +286,19 @@ public class Staff extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
-
-        // Tạo một mảng chứa các lựa chọn
-        List<Map<String, Object>> results = HotelController.getAll();
-        String[] options = new String[results.size()];
-        for (int i = 0; i < results.size(); i++) {
-            Map<String, Object> hotel = results.get(i);
-            options[i] = (String) hotel.get("Name");
-        }
-        // Tạo JComboBox và thêm các lựa chọn vào đó
-        JComboBox<String> comboBox = new JComboBox<>(options);
-        comboBox.setSelectedIndex(0); // Chọn mục đầu tiên mặc định
-        panel.replaceTextField(comboBox, 5);
-
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,
                 "Thêm mới",
                 JOptionPane.OK_CANCEL_OPTION
         );
-
         if (result == JOptionPane.OK_OPTION) {
             String[] input = panel.getData();
             Map<String, Object> data = new HashMap<>();
             for (int i = 0; i < textFields.length; i++) {
                 data.put(textFields[i].getField(), input[i].trim());
             }
-            data.put("HotelID", HotelController.getHotelID((String) data.get("HotelID")));
-            StaffController.insert(data);
+            BookingController.insert(data);
             showDataTable();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -341,14 +308,13 @@ public class Staff extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = StaffController.getAllFK();
+        List<Map<String, Object>> results = BookingController.getAll();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {
                     // Nếu giá trị trong cột chứa văn bản tìm kiếm, thêm hàng vào bảng
-                    Object[] fields = new Object[textFields.length + 2];
+                    Object[] fields = new Object[textFields.length + 1];
                     fields[idColumn] = result.get("ID");
-                    fields[idColumn + 1] = result.get("HotelName");
                     for (int i = 0; i < textFields.length; i++) {
                         fields[i] = result.get(textFields[i].getField());
                     }

@@ -3,37 +3,33 @@ package Controller;
 import Model.*;
 import java.util.*;
 
-public class HotelController {
-
-    public HotelController() {
-        System.out.println("Run HotelController..");
+public class PaymentController {
+    
+    public PaymentController() {
+        System.out.println("Run PaymentController..");
     }
 
     public static List<Map<String, Object>> getAll() {
-        return HotelModel.mGetAll();
+        return PaymentModel.mGetAll();
     }
 
     public static void delete(int id) {
-        HotelModel.mDelete(id);
+        PaymentModel.mDelete(id);
     }
 
     public static void insert(Map<String, Object> data) {
-        HotelModel.mInsert(data);
+        PaymentModel.mInsert(data);
     }
 
     public static void update(int id, Map<String, Object> data) {
-        HotelModel.mUpdate(id, data);
+        PaymentModel.mUpdate(id, data);
     }
-
-    public static int getHotelID(String hotelName) {
-        return HotelModel.mgetHotelID(hotelName);
-    }
-
 
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
         List<Map<String, Object>> data = getAll();
         System.out.println(data);
-
+        
+        
     }
 }

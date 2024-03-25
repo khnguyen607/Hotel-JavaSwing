@@ -18,20 +18,26 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 switch (index) {
-                    case 1:
-                        setForm(new Hotel());
-                        break;
                     case 2:
-                        setForm(new Staff());
+                        setForm(new Booking());
                         break;
                     case 3:
-                        setForm(new RoomType());
+                        setForm(new Room());
                         break;
-                    case 4:
+                    case 6:
                         setForm(new Staff());
                         break;
+                    case 7:
+                        setForm(new Guest());
+                        break;
                     case 8:
-                        setForm(new Room());
+                        setForm(new RoomType());
+                        break;
+                    case 9:
+                        setForm(new Hotel());
+                        break;
+                    case 10:
+                        setForm(new Payment());
                         break;
                     default:
                         setForm(new Home());

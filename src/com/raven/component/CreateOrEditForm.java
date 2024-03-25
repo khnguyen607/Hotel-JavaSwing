@@ -5,12 +5,14 @@ import java.awt.*;
 import javax.swing.text.*;
 import java.text.ParseException;
 import java.awt.event.*;
+import java.util.Arrays;
 
 import com.raven.model.TextField;
 
 public class CreateOrEditForm extends JPanel {
 
     private JTextField[] textFields;
+    private Component[] componentField;
 
     private void formatField(String dataType, int i) {
         switch (dataType) {
@@ -59,14 +61,14 @@ public class CreateOrEditForm extends JPanel {
 
     public CreateOrEditForm(TextField[] labels) {
         setLayout(new GridLayout(labels.length, 2));
+
         textFields = new JFormattedTextField[labels.length];
-        
         for (int i = 0; i < labels.length; i++) {
             add(new JLabel(labels[i].getLabel()));
             formatField(labels[i].getType(), i);
             textFields[i].setColumns(10);
             add(textFields[i]);
-            
+
             JTextField textField = textFields[i];
             textField.addFocusListener(new FocusAdapter() {
                 @Override
@@ -74,15 +76,36 @@ public class CreateOrEditForm extends JPanel {
                     // Bôi đen toàn bộ nội dung khi focus vào
                     textField.selectAll();
                 }
-
             });
+        }
+
+        componentField = new Component[labels.length];
+        for (int i = 0; i < labels.length; i++) {
+            componentField[i] = textFields[i];
         }
     }
 
+    public void replaceTextField(Component newComponent, int index) {
+        add(newComponent, getComponentZOrder(componentField[index]));
+        remove(componentField[index]);
+        componentField[index] = newComponent;
+        revalidate();
+        repaint();
+
+    }
+
     public String[] getData() {
-        String[] data = new String[textFields.length];
-        for (int i = 0; i < textFields.length; i++) {
-            data[i] = textFields[i].getText();
+        String[] data = new String[componentField.length];
+        for (int i = 0; i < componentField.length; i++) {
+            Component component = componentField[i];
+            if (component instanceof JTextField) {
+                JTextField textField = (JTextField) component;
+                data[i] = textField.getText();
+            } else if (component instanceof JComboBox) {
+                JComboBox<?> comboBox = (JComboBox<?>) component;
+                Object selectedItem = comboBox.getSelectedItem();
+                data[i] = (selectedItem != null) ? selectedItem.toString() : null;
+            }
         }
         return data;
     }
@@ -93,25 +116,25 @@ public class CreateOrEditForm extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
-        TextField[] labels = new TextField[]{
-            new TextField("Họ tên", "FullName", "String"),
-            new TextField("Số điện thoại", "Phone", "Phone"),
-            new TextField("Email", "Email", "Date"),
-            new TextField("Hạng thành viên", "Tier", "Number")
-        };
-
-        CreateOrEditForm panel = new CreateOrEditForm(labels);
-
-//         Set data
-        String[] exampleData = {"John Doe", "123456789", "123 Main St", "john@example.com"};
-        panel.setData(exampleData);
-        int result = JOptionPane.showConfirmDialog(null, panel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String[] data = panel.getData();
-            for (String datum : data) {
-                System.out.println(datum);
-            }
-        }
-    }
+//    public static void main(String[] args) {
+//        TextField[] labels = new TextField[]{
+//            new TextField("Họ tên", "FullName", "String"),
+//            new TextField("Số điện thoại", "Phone", "Phone"),
+//            new TextField("Email", "Email", "Date"),
+//            new TextField("Hạng thành viên", "Tier", "Number")
+//        };
+//
+//        CreateOrEditForm panel = new CreateOrEditForm(labels);
+//
+////         Set data
+//        String[] exampleData = {"John Doe", "123456789", "123 Main St", "john@example.com"};
+//        panel.setData(exampleData);
+//        int result = JOptionPane.showConfirmDialog(null, panel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION);
+//        if (result == JOptionPane.OK_OPTION) {
+//            String[] data = panel.getData();
+//            for (String datum : data) {
+//                System.out.println(datum);
+//            }
+//        }
+//    }
 }

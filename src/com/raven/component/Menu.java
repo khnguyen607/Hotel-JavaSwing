@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JFrame;
+import javax.swing.ListCellRenderer;
 
 public class Menu extends javax.swing.JPanel {
 
@@ -29,20 +30,21 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void init() {
+        listMenu1.addItem(new Model_Menu("", "Quản lý kinh doanh", Model_Menu.MenuType.TITLE));
+        
         listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Đặt phòng", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Các phòng", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Khách hàng", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Date Table", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("2", "Đơn đặt phòng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Toàn bộ phòng", Model_Menu.MenuType.MENU));
 
-        listMenu1.addItem(new Model_Menu("", "My Data", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
-        listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Sample Page", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Extra", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "More", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "Quản lý thông tin chung", Model_Menu.MenuType.TITLE));
+
+        listMenu1.addItem(new Model_Menu("6", "Nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "Khách hàng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Các loại phòng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Khách sạn đang quản lý", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Logout", Model_Menu.MenuType.MENU));
+
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
     }
 

@@ -5,10 +5,9 @@ import java.util.*;
 
 import Core.ConnectDB;
 
-public class StaffModel extends BaseModel {
-
+public class PaymentModel extends BaseModel {
     private static final String TABLE_NAME = "staffs";
-
+    
     public static List<Map<String, Object>> mGetAll() {
         return bmGetAll(TABLE_NAME);
     }
@@ -29,14 +28,5 @@ public class StaffModel extends BaseModel {
             return; // Dừng phương thức nếu các tham số không hợp lệ
         }
         bmUpdate(TABLE_NAME, id, data);
-    }
-
-    public static List<Map<String, Object>> mGetAllFK() {
-        List<Map<String, Object>> results = bmGetAll(TABLE_NAME);
-        for (int i = 0; i < results.size(); i++) {
-            Map<String, Object> map = results.get(i);
-            map.put("HotelName", HotelModel.mgetHotelName(((Integer) map.get("HotelID")).intValue()));
-        }
-        return results;
     }
 }

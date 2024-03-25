@@ -6,8 +6,9 @@ import java.util.*;
 import Core.ConnectDB;
 
 public class HotelModel extends BaseModel {
+
     private static final String TABLE_NAME = "hotels";
-    
+
     public static List<Map<String, Object>> mGetAll() {
         return bmGetAll(TABLE_NAME);
     }
@@ -29,4 +30,41 @@ public class HotelModel extends BaseModel {
         }
         bmUpdate(TABLE_NAME, id, data);
     }
+
+    public static int mgetHotelID(String hotelName) {
+        int hotelID = -1; // Giá trị mặc định trả về nếu không tìm thấy khách sạn
+
+        String sql = "SELECT ID FROM hotels WHERE Name = ?";
+        try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, hotelName); // Thêm tham số chuẩn hóa
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    hotelID = rs.getInt("ID");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return hotelID;
+    }
+
+    public static String mgetHotelName(int hotelID) {
+        String hotelName = null; // Giá trị mặc định trả về nếu không tìm thấy tên khách sạn
+
+        String sql = "SELECT Name FROM hotels WHERE ID = ?";
+        try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, hotelID); // Thêm tham số chuẩn hóa
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    hotelName = rs.getString("Name");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return hotelName;
+    }
+
 }
