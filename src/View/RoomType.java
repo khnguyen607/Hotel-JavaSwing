@@ -21,6 +21,11 @@ public class RoomType extends javax.swing.JPanel {
     };
     private final int idColumn = textFields.length;
 
+    public String getSelectedID(){
+        int row = table.getSelectedRow();
+        return table.getModel().getValueAt(row, idColumn).toString();
+    }
+
     public RoomType() {
         initComponents();
 //        Set tên của bảng

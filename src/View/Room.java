@@ -10,6 +10,7 @@ import com.raven.swing.ScrollBar;
 import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
+import com.raven.event.*;
 
 public class Room extends javax.swing.JPanel {
 
@@ -285,33 +286,9 @@ public class Room extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
-        
-        JTextField textField = panel.getTextField(1);
-        textField.addMouseListener(new MouseAdapter() {
-            long lastClickTime = 0;
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastClickTime < 300) { // Threshold for double click
-                    handleDoubleClick();
-                }
-                lastClickTime = currentTime;
-            }
 
-            private void handleDoubleClick() {
-                // Handle double click action here
-                Hotel panelHotel = new Hotel();
-                int result = JOptionPane.showConfirmDialog(
-                        null,
-                        panelHotel,
-                        "Thêm mới",
-                        JOptionPane.OK_CANCEL_OPTION
-                );
-                if (result == JOptionPane.OK_OPTION) {
-                    textField.setText(panelHotel.getSelectedTable());
-                }
-            }
-        });
+        ShowView.Hotel(panel.getTextField(0));
+        ShowView.RoomType(panel.getTextField(1));
         
         int result = JOptionPane.showConfirmDialog(
                 null,

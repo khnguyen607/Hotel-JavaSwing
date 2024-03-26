@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import com.raven.swing.ScrollBar;
 import Controller.*;
 import com.raven.component.CreateOrEditForm;
+import com.raven.event.ShowView;
 import com.raven.model.TextField;
 
 public class Staff extends javax.swing.JPanel {
@@ -43,9 +44,6 @@ public class Staff extends javax.swing.JPanel {
         table.getColumnModel().getColumn(idColumn).setMinWidth(0);
         table.getColumnModel().getColumn(idColumn).setMaxWidth(0);
         table.getColumnModel().getColumn(idColumn).setWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setMinWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setMaxWidth(0);
-        table.getColumnModel().getColumn(idColumn - 1).setWidth(0);
 //        HIỂN THỊ DỮ LIỆU LẦN ĐẦU 
         showDataTable();
     }
@@ -188,9 +186,8 @@ public class Staff extends javax.swing.JPanel {
 
     private void setColumn() {
         // Chuyển List<String> thành mảng String[]
-        String[] columnNames = new String[textFields.length + 2];
+        String[] columnNames = new String[textFields.length + 1];
         columnNames[textFields.length] = "ID";
-        columnNames[textFields.length + 1] = "Khách sạn làm việc";
         for (int i = 0; i < textFields.length; i++) {
             columnNames[i] = textFields[i].getLabel();
         }
@@ -212,12 +209,12 @@ public class Staff extends javax.swing.JPanel {
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
         List<Map<String, Object>> results = StaffController.getAllFK();
         for (Map<String, Object> result : results) {
-            Object[] fields = new Object[textFields.length + 2];
+            Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
-            fields[idColumn + 1] = result.get("HotelName");
             for (int i = 0; i < textFields.length; i++) {
                 fields[i] = result.get(textFields[i].getField());
             }
+            fields[5] = result.get("HotelName");
             model.addRow(fields);
         }
     }
@@ -269,8 +266,9 @@ public class Staff extends javax.swing.JPanel {
         for (int i = 0; i < textFields.length; i++) {
             defaultDatas[i] = table.getModel().getValueAt(row, i).toString();
         }
+        defaultDatas[5] = Integer.toString(HotelController.getHotelID(defaultDatas[5]));
         panel.setData(defaultDatas);
-
+        ShowView.Hotel(panel.getTextField(5));
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,
@@ -291,6 +289,8 @@ public class Staff extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+
+        ShowView.Hotel(panel.getTextField(5));
 
         int result = JOptionPane.showConfirmDialog(
                 null,
