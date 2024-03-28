@@ -19,6 +19,8 @@ public class Room extends javax.swing.JPanel {
     private final TextField[] textFields = new TextField[]{
         new TextField("Khách sạn*", "HotelID", "Number"),
         new TextField("Loại phòng*", "RoomTypeID", "Number"),
+        new TextField("Số phòng", "NumberRoom", "String"),
+        new TextField("Giá phòng", "Price", "Number"),
         new TextField("Trạng thái", "Status", "String")
     };
     private final int idColumn = textFields.length;
@@ -191,7 +193,8 @@ public class Room extends javax.swing.JPanel {
     private void setColumn() {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
-        columnNames[textFields.length] = "ID";
+        columnNames[idColumn] = "ID";
+        
         for (int i = 0; i < textFields.length; i++) {
             columnNames[i] = textFields[i].getLabel();
         }

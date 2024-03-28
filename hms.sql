@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th3 28, 2024 lúc 05:27 AM
+-- Thời gian đã tạo: Th3 28, 2024 lúc 12:27 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -97,6 +97,7 @@ CREATE TABLE `rooms` (
   `NumberRoom` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `HotelID` int NOT NULL,
   `RoomTypeID` int NOT NULL,
+  `Price` int NOT NULL,
   `Status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -104,9 +105,9 @@ CREATE TABLE `rooms` (
 -- Đang đổ dữ liệu cho bảng `rooms`
 --
 
-INSERT INTO `rooms` (`ID`, `NumberRoom`, `HotelID`, `RoomTypeID`, `Status`) VALUES
-(1, '603', 3, 1, 'Còn phòng'),
-(2, '502', 1, 1, 'Còn phòng');
+INSERT INTO `rooms` (`ID`, `NumberRoom`, `HotelID`, `RoomTypeID`, `Price`, `Status`) VALUES
+(1, '603', 3, 1, 100, 'Còn phòng'),
+(2, '502', 1, 1, 100, 'Còn phòng');
 
 -- --------------------------------------------------------
 
@@ -118,7 +119,6 @@ CREATE TABLE `roomtype` (
   `ID` int NOT NULL,
   `Name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Price` int NOT NULL,
   `Capicity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -126,8 +126,8 @@ CREATE TABLE `roomtype` (
 -- Đang đổ dữ liệu cho bảng `roomtype`
 --
 
-INSERT INTO `roomtype` (`ID`, `Name`, `Description`, `Price`, `Capicity`) VALUES
-(1, 'Phòng master', 'Dành cho 4 người', 10000, 10);
+INSERT INTO `roomtype` (`ID`, `Name`, `Description`, `Capicity`) VALUES
+(1, 'Phòng master', 'Dành cho 4 người', 10);
 
 -- --------------------------------------------------------
 

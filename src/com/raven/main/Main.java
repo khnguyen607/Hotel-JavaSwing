@@ -36,9 +36,6 @@ public class Main extends javax.swing.JFrame {
                     case 9:
                         setForm(new Hotel());
                         break;
-                    case 10:
-                        setForm(new Payment());
-                        break;
                     default:
                         setForm(new Home());
                         break;
