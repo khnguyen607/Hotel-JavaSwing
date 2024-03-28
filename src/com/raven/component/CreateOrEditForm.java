@@ -46,7 +46,7 @@ public class CreateOrEditForm extends JPanel {
                 break;
             case "Date":
                 try {
-                    textFields[i] = new JFormattedTextField(new MaskFormatter("####-##-## ##:##:##"));
+                    textFields[i] = new JFormattedTextField(new MaskFormatter("####-##-##"));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

@@ -35,7 +35,7 @@ public class StaffModel extends BaseModel {
         List<Map<String, Object>> results = bmGetAll(TABLE_NAME);
         for (int i = 0; i < results.size(); i++) {
             Map<String, Object> map = results.get(i);
-            map.put("HotelName", HotelModel.mgetHotelName(((Integer) map.get("HotelID")).intValue()));
+            map.put("HotelName", HotelModel.mgetName(((Integer) map.get("HotelID")).intValue()));
         }
         return results;
     }

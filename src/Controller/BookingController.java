@@ -4,7 +4,7 @@ import Model.*;
 import java.util.*;
 
 public class BookingController {
-    
+
     public BookingController() {
         System.out.println("Run BookingController..");
     }
@@ -25,11 +25,14 @@ public class BookingController {
         BookingModel.mUpdate(id, data);
     }
 
+    public static List<Map<String, Object>> getAllFK() {
+        return BookingModel.mGetAllFK();
+    }
+
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
         List<Map<String, Object>> data = getAll();
         System.out.println(data);
-        
-        
+
     }
 }

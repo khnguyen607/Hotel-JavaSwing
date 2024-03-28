@@ -21,7 +21,7 @@ public class Staff extends javax.swing.JPanel {
         new TextField("Mức lương", "Salary", "Number"),
         new TextField("Số điện thoại", "Phone", "Phone"),
         new TextField("Địa chỉ mail", "Email", "String"),
-        new TextField("Khách sạn làm việc", "HotelID", "Number")
+        new TextField("Khách sạn làm việc*", "HotelID", "Number")
     };
     private final int idColumn = textFields.length;
 
@@ -266,7 +266,7 @@ public class Staff extends javax.swing.JPanel {
         for (int i = 0; i < textFields.length; i++) {
             defaultDatas[i] = table.getModel().getValueAt(row, i).toString();
         }
-        defaultDatas[5] = Integer.toString(HotelController.getHotelID(defaultDatas[5]));
+        defaultDatas[5] = Integer.toString(HotelController.getID(defaultDatas[5]));
         panel.setData(defaultDatas);
         ShowView.Hotel(panel.getTextField(5));
         int result = JOptionPane.showConfirmDialog(
@@ -326,6 +326,7 @@ public class Staff extends javax.swing.JPanel {
                     for (int i = 0; i < textFields.length; i++) {
                         fields[i] = result.get(textFields[i].getField());
                     }
+                    fields[5] = result.get("HotelName");
                     model.addRow(fields);
                     break; // Thoát khỏi vòng lặp nếu đã tìm thấy kết quả trong hàng này
                 }

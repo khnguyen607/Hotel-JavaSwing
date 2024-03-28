@@ -31,40 +31,40 @@ public class HotelModel extends BaseModel {
         bmUpdate(TABLE_NAME, id, data);
     }
 
-    public static int mgetHotelID(String hotelName) {
-        int hotelID = -1; // Giá trị mặc định trả về nếu không tìm thấy khách sạn
+    public static int mgetID(String Name) {
+        int ID = -1; // Giá trị mặc định trả về nếu không tìm thấy khách sạn
 
         String sql = "SELECT ID FROM hotels WHERE Name = ?";
         try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, hotelName); // Thêm tham số chuẩn hóa
+            stmt.setString(1, Name); // Thêm tham số chuẩn hóa
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    hotelID = rs.getInt("ID");
+                    ID = rs.getInt("ID");
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return hotelID;
+        return ID;
     }
 
-    public static String mgetHotelName(int hotelID) {
-        String hotelName = null; // Giá trị mặc định trả về nếu không tìm thấy tên khách sạn
+    public static String mgetName(int ID) {
+        String Name = null; // Giá trị mặc định trả về nếu không tìm thấy tên khách sạn
 
         String sql = "SELECT Name FROM hotels WHERE ID = ?";
         try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, hotelID); // Thêm tham số chuẩn hóa
+            stmt.setInt(1, ID); // Thêm tham số chuẩn hóa
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    hotelName = rs.getString("Name");
+                    Name = rs.getString("Name");
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return hotelName;
+        return Name;
     }
 
 }

@@ -25,8 +25,8 @@ public class HotelController {
         HotelModel.mUpdate(id, data);
     }
 
-    public static int getHotelID(String hotelName) {
-        return HotelModel.mgetHotelID(hotelName);
+    public static int getID(String Name) {
+        return HotelModel.mgetID(Name);
     }
 
 

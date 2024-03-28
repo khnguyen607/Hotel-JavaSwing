@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th3 23, 2024 lúc 01:03 PM
+-- Thời gian đã tạo: Th3 28, 2024 lúc 05:27 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -36,6 +36,13 @@ CREATE TABLE `booking` (
   `TotalPrice` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `booking`
+--
+
+INSERT INTO `booking` (`ID`, `GuestID`, `RoomID`, `CheckIn`, `CheckOut`, `TotalPrice`) VALUES
+(1, 6, 2, '2024-03-12', '2024-03-15', 10);
+
 -- --------------------------------------------------------
 
 --
@@ -45,7 +52,7 @@ CREATE TABLE `booking` (
 CREATE TABLE `guests` (
   `ID` int NOT NULL,
   `FullName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Tier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -55,8 +62,7 @@ CREATE TABLE `guests` (
 --
 
 INSERT INTO `guests` (`ID`, `FullName`, `Phone`, `Email`, `Tier`) VALUES
-(3, 'Hải Chiều khúc', '(+84) 135 498 798', 'khnguyen@gmail.com', 'Vip'),
-(6, 'Tôi Là Nguyên', '(+84) 946 541 232', 'khnguyen.job@gmail.com', 'VVip');
+(6, 'Thủy Giang', '(+84) 949 848 645', 'khnguyen.job@gmail.com', 'VVip');
 
 -- --------------------------------------------------------
 
@@ -68,7 +74,7 @@ CREATE TABLE `hotels` (
   `ID` int NOT NULL,
   `Name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Star` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `Star` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -76,20 +82,9 @@ CREATE TABLE `hotels` (
 --
 
 INSERT INTO `hotels` (`ID`, `Name`, `Address`, `Star`) VALUES
-(3, 'Khách sạn 1', 'Địa chỉ 11', '21323');
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `payment`
---
-
-CREATE TABLE `payment` (
-  `ID` int NOT NULL,
-  `BookingID` int NOT NULL,
-  `PaymentDate` date NOT NULL,
-  `Method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(1, 'Khách sạn 1', '53 Hải chiều', 2),
+(2, 'Khách sạn 2', '101 Hải Hàn', 5),
+(3, 'V6', '12 Hàng Bài', 5);
 
 -- --------------------------------------------------------
 
@@ -99,10 +94,19 @@ CREATE TABLE `payment` (
 
 CREATE TABLE `rooms` (
   `ID` int NOT NULL,
+  `NumberRoom` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `HotelID` int NOT NULL,
   `RoomTypeID` int NOT NULL,
   `Status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `rooms`
+--
+
+INSERT INTO `rooms` (`ID`, `NumberRoom`, `HotelID`, `RoomTypeID`, `Status`) VALUES
+(1, '603', 3, 1, 'Còn phòng'),
+(2, '502', 1, 1, 'Còn phòng');
 
 -- --------------------------------------------------------
 
@@ -118,6 +122,13 @@ CREATE TABLE `roomtype` (
   `Capicity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `roomtype`
+--
+
+INSERT INTO `roomtype` (`ID`, `Name`, `Description`, `Price`, `Capicity`) VALUES
+(1, 'Phòng master', 'Dành cho 4 người', 10000, 10);
+
 -- --------------------------------------------------------
 
 --
@@ -130,9 +141,17 @@ CREATE TABLE `staffs` (
   `FullName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Salary` int NOT NULL,
-  `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `staffs`
+--
+
+INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`, `Email`) VALUES
+(1, 3, 'Hoàng Tôn', 'Bảo vệ', 10000000, '(+84) 561 651 515', 'hoangton@gmail.com'),
+(2, 1, 'Hải An', 'Nhân VIên', 1000000, '(+84) 651 615 616', 'haian@gmail.com');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -154,12 +173,6 @@ ALTER TABLE `guests`
 -- Chỉ mục cho bảng `hotels`
 --
 ALTER TABLE `hotels`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Chỉ mục cho bảng `payment`
---
-ALTER TABLE `payment`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -191,7 +204,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT cho bảng `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `guests`
@@ -206,28 +219,22 @@ ALTER TABLE `hotels`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `payment`
---
-ALTER TABLE `payment`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT cho bảng `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `roomtype`
 --
 ALTER TABLE `roomtype`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
