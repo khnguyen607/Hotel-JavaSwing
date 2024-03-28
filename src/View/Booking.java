@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import com.raven.swing.ScrollBar;
 import Controller.*;
 import com.raven.component.CreateOrEditForm;
+import com.raven.event.ShowView;
 import com.raven.model.TextField;
 
 public class Booking extends javax.swing.JPanel {
@@ -15,8 +16,8 @@ public class Booking extends javax.swing.JPanel {
     private final String tableName = "Đặt phòng";
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("ID khách hàng", "GuestID", "String"),
-        new TextField("ID phòng", "RoomID", "String"),
+        new TextField("Khách hàng*", "GuestID", "String"),
+        new TextField("Phòng*", "RoomID", "String"),
         new TextField("Nhận phòng", "CheckIn", "Date"),
         new TextField("Trả phòng", "CheckOut", "Date"),
         new TextField("Tổng phí", "TotalPrice", "Number")
@@ -206,13 +207,15 @@ public class Booking extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = BookingController.getAll();
+        List<Map<String, Object>> results = BookingController.getAllFK();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
             for (int i = 0; i < textFields.length; i++) {
                 fields[i] = result.get(textFields[i].getField());
             }
+            fields[0] = result.get("GuestFullName");
+            fields[1] = result.get("NumberRoom");
             model.addRow(fields);
         }
     }
@@ -286,6 +289,10 @@ public class Booking extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+        
+        ShowView.Guest(panel.getTextField(0));
+        ShowView.Room(panel.getTextField(1));
+        
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,

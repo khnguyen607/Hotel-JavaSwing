@@ -4,7 +4,7 @@ import Model.*;
 import java.util.*;
 
 public class RoomTypeController {
-    
+
     public RoomTypeController() {
         System.out.println("Run RoomTypeController..");
     }
@@ -25,11 +25,14 @@ public class RoomTypeController {
         RoomTypeModel.mUpdate(id, data);
     }
 
+    public static int getID(String Name) {
+        return RoomTypeModel.mgetID(Name);
+    }
+
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
         List<Map<String, Object>> data = getAll();
         System.out.println(data);
-        
-        
+
     }
 }

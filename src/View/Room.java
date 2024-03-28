@@ -17,11 +17,16 @@ public class Room extends javax.swing.JPanel {
     private final String tableName = "Phòng khách sạn";
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("ID khách sạn", "HotelID", "Number"),
-        new TextField("ID loại phòng", "RoomTypeID", "Number"),
+        new TextField("Khách sạn*", "HotelID", "Number"),
+        new TextField("Loại phòng*", "RoomTypeID", "Number"),
         new TextField("Trạng thái", "Status", "String")
     };
     private final int idColumn = textFields.length;
+
+    public String getSelectedID() {
+        int row = table.getSelectedRow();
+        return table.getModel().getValueAt(row, idColumn).toString();
+    }
 
     public Room() {
         initComponents();
@@ -206,13 +211,15 @@ public class Room extends javax.swing.JPanel {
         }
 
 //        HIỂN THỊ DỮ LIỆU TRON DATABASE
-        List<Map<String, Object>> results = RoomController.getAll();
+        List<Map<String, Object>> results = RoomController.getAllFK();
         for (Map<String, Object> result : results) {
             Object[] fields = new Object[textFields.length + 1];
             fields[idColumn] = result.get("ID");
             for (int i = 0; i < textFields.length; i++) {
                 fields[i] = result.get(textFields[i].getField());
             }
+            fields[0] = result.get("HotelName");
+            fields[1] = result.get("RoomTypeName");
             model.addRow(fields);
         }
     }
@@ -259,11 +266,16 @@ public class Room extends javax.swing.JPanel {
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
+        ShowView.Hotel(panel.getTextField(0));
+        ShowView.RoomType(panel.getTextField(1));
+
 //        SET DATA MẶC ĐỊNH
         String[] defaultDatas = new String[textFields.length];
         for (int i = 0; i < textFields.length; i++) {
             defaultDatas[i] = table.getModel().getValueAt(row, i).toString();
         }
+        defaultDatas[0] = Integer.toString(HotelController.getID(defaultDatas[0]));
+        defaultDatas[1] = Integer.toString(RoomTypeController.getID(defaultDatas[1]));
         panel.setData(defaultDatas);
 
         int result = JOptionPane.showConfirmDialog(
@@ -289,7 +301,7 @@ public class Room extends javax.swing.JPanel {
 
         ShowView.Hotel(panel.getTextField(0));
         ShowView.RoomType(panel.getTextField(1));
-        
+
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,

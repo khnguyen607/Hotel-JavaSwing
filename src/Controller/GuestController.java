@@ -4,7 +4,7 @@ import Model.*;
 import java.util.*;
 
 public class GuestController {
-    
+
     public GuestController() {
         System.out.println("Run CustomerController..");
     }
@@ -23,6 +23,10 @@ public class GuestController {
 
     public static void update(int id, Map<String, Object> data) {
         GuestModel.mUpdate(id, data);
+    }
+
+    public static int getID(String Name) {
+        return GuestModel.mgetID(Name);
     }
 
     public static void main(String[] args) {
