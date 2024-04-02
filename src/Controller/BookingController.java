@@ -17,6 +17,10 @@ public class BookingController {
         BookingModel.mDelete(id);
     }
 
+    public static void deleteWhere(String condition) {
+        BookingModel.mDeleteWhere(condition);
+    }
+
     public static void insert(Map<String, Object> data) {
         BookingModel.mInsert(data);
     }

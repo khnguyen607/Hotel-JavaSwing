@@ -14,7 +14,17 @@ public class RoomTypeController {
     }
 
     public static void delete(int id) {
+        List<Map<String, Object>> rooms = RoomController.getAll();
+        for(Map<String, Object> room : rooms){
+            if((int) room.get("RoomTypeID") == id){
+                RoomController.delete((int) room.get("ID"));
+            }
+        }
         RoomTypeModel.mDelete(id);
+    }
+
+    public static void deleteWhere(String condition) {
+        RoomTypeModel.mDeleteWhere(condition);
     }
 
     public static void insert(Map<String, Object> data) {
@@ -27,6 +37,10 @@ public class RoomTypeController {
 
     public static int getID(String Name) {
         return RoomTypeModel.mgetID(Name);
+    }
+
+    public static String getName(int ID) {
+        return RoomTypeModel.mgetName(ID);
     }
 
     public static void main(String[] args) {

@@ -13,8 +13,16 @@ public class GuestModel extends BaseModel {
         return bmGetAll(TABLE_NAME);
     }
 
+    public static Map<String, Object> mGetByID(int id) {
+        return bmGetByID(TABLE_NAME, id);
+    }
+
     public static void mDelete(int id) {
         bmDelete(TABLE_NAME, id);
+    }
+
+    public static void mDeleteWhere(String condition) {
+        bmDeleteWhere(TABLE_NAME, condition);
     }
 
     public static void mInsert(Map<String, Object> data) {
@@ -34,7 +42,7 @@ public class GuestModel extends BaseModel {
     public static int mgetID(String Name) {
         int ID = -1; // Giá trị mặc định trả về nếu không tìm thấy khách sạn
 
-        String sql = "SELECT ID FROM guests WHERE Name = ?";
+        String sql = "SELECT ID FROM guests WHERE FullName = ?";
         try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, Name); // Thêm tham số chuẩn hóa
 

@@ -16,6 +16,10 @@ public class StaffModel extends BaseModel {
     public static void mDelete(int id) {
         bmDelete(TABLE_NAME, id);
     }
+    
+    public static void mDeleteWhere(String condition) {
+        bmDeleteWhere(TABLE_NAME, condition);
+    }
 
     public static void mInsert(Map<String, Object> data) {
         if (TABLE_NAME == null || TABLE_NAME.isEmpty() || data == null || data.isEmpty()) {

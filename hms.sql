@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th3 28, 2024 lúc 12:27 PM
+-- Thời gian đã tạo: Th4 02, 2024 lúc 09:50 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -32,16 +32,8 @@ CREATE TABLE `booking` (
   `GuestID` int NOT NULL,
   `RoomID` int NOT NULL,
   `CheckIn` date NOT NULL,
-  `CheckOut` date NOT NULL,
-  `TotalPrice` int NOT NULL
+  `CheckOut` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `booking`
---
-
-INSERT INTO `booking` (`ID`, `GuestID`, `RoomID`, `CheckIn`, `CheckOut`, `TotalPrice`) VALUES
-(1, 6, 2, '2024-03-12', '2024-03-15', 10);
 
 -- --------------------------------------------------------
 
@@ -57,13 +49,6 @@ CREATE TABLE `guests` (
   `Tier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `guests`
---
-
-INSERT INTO `guests` (`ID`, `FullName`, `Phone`, `Email`, `Tier`) VALUES
-(6, 'Thủy Giang', '(+84) 949 848 645', 'khnguyen.job@gmail.com', 'VVip');
-
 -- --------------------------------------------------------
 
 --
@@ -76,15 +61,6 @@ CREATE TABLE `hotels` (
   `Address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Star` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `hotels`
---
-
-INSERT INTO `hotels` (`ID`, `Name`, `Address`, `Star`) VALUES
-(1, 'Khách sạn 1', '53 Hải chiều', 2),
-(2, 'Khách sạn 2', '101 Hải Hàn', 5),
-(3, 'V6', '12 Hàng Bài', 5);
 
 -- --------------------------------------------------------
 
@@ -101,14 +77,6 @@ CREATE TABLE `rooms` (
   `Status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `rooms`
---
-
-INSERT INTO `rooms` (`ID`, `NumberRoom`, `HotelID`, `RoomTypeID`, `Price`, `Status`) VALUES
-(1, '603', 3, 1, 100, 'Còn phòng'),
-(2, '502', 1, 1, 100, 'Còn phòng');
-
 -- --------------------------------------------------------
 
 --
@@ -121,13 +89,6 @@ CREATE TABLE `roomtype` (
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Capicity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `roomtype`
---
-
-INSERT INTO `roomtype` (`ID`, `Name`, `Description`, `Capicity`) VALUES
-(1, 'Phòng master', 'Dành cho 4 người', 10);
 
 -- --------------------------------------------------------
 
@@ -146,14 +107,6 @@ CREATE TABLE `staffs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `staffs`
---
-
-INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`, `Email`) VALUES
-(1, 3, 'Hoàng Tôn', 'Bảo vệ', 10000000, '(+84) 561 651 515', 'hoangton@gmail.com'),
-(2, 1, 'Hải An', 'Nhân VIên', 1000000, '(+84) 651 615 616', 'haian@gmail.com');
-
---
 -- Chỉ mục cho các bảng đã đổ
 --
 
@@ -161,7 +114,9 @@ INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`
 -- Chỉ mục cho bảng `booking`
 --
 ALTER TABLE `booking`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `booking_guests` (`GuestID`),
+  ADD KEY `booking_rooms` (`RoomID`);
 
 --
 -- Chỉ mục cho bảng `guests`
@@ -204,41 +159,48 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT cho bảng `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `guests`
 --
 ALTER TABLE `guests`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `hotels`
 --
 ALTER TABLE `hotels`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `roomtype`
 --
 ALTER TABLE `roomtype`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `booking`
+--
+ALTER TABLE `booking`
+  ADD CONSTRAINT `booking_guests` FOREIGN KEY (`GuestID`) REFERENCES `guests` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `booking_rooms` FOREIGN KEY (`RoomID`) REFERENCES `rooms` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Các ràng buộc cho bảng `rooms`

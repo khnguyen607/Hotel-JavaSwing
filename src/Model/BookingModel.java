@@ -17,6 +17,10 @@ public class BookingModel extends BaseModel {
         bmDelete(TABLE_NAME, id);
     }
 
+    public static void mDeleteWhere(String condition) {
+        bmDeleteWhere(TABLE_NAME, condition);
+    }
+
     public static void mInsert(Map<String, Object> data) {
         if (TABLE_NAME == null || TABLE_NAME.isEmpty() || data == null || data.isEmpty()) {
             return; // Dừng phương thức nếu các tham số không hợp lệ
@@ -37,7 +41,7 @@ public class BookingModel extends BaseModel {
         List<Map<String, Object>> dataList = new ArrayList<>();
         try (Connection conn = ConnectDB.getConnection()) {
             String sql = String.format(
-                    "SELECT booking.*, hotels.Name AS HotelName FROM %s INNER JOIN rooms ON booking.RoomID=rooms.ID INNER JOIN hotels ON rooms.HotelID = hotels.ID", 
+                    "SELECT booking.*, hotels.Name AS HotelName FROM %s INNER JOIN rooms ON booking.RoomID=rooms.ID INNER JOIN hotels ON rooms.HotelID = hotels.ID",
                     TABLE_NAME
             );
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -60,7 +64,7 @@ public class BookingModel extends BaseModel {
             ex.printStackTrace();
         }
         List<Map<String, Object>> results = dataList;
-        
+
         for (int i = 0; i < results.size(); i++) {
             Map<String, Object> map = results.get(i);
             map.put("NumberRoom", RoomModel.mgetName(((Integer) map.get("RoomID")).intValue()));

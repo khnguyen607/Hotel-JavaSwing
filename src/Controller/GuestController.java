@@ -13,8 +13,17 @@ public class GuestController {
         return GuestModel.mGetAll();
     }
 
+    public static Map<String, Object> getByID(int id) {
+        return GuestModel.mGetByID(id);
+    }
+
     public static void delete(int id) {
+        BookingController.deleteWhere("GuestID="+id);
         GuestModel.mDelete(id);
+    }
+
+    public static void deleteWhere(String condition) {
+        GuestModel.mDeleteWhere(condition);
     }
 
     public static void insert(Map<String, Object> data) {

@@ -11,6 +11,7 @@ import com.raven.component.*;
 import com.raven.event.ShowBookingDetail;
 import com.raven.event.ShowView;
 import com.raven.model.TextField;
+
 public class Booking extends javax.swing.JPanel {
 
     private final String tableName = "Đặt phòng";
@@ -19,8 +20,7 @@ public class Booking extends javax.swing.JPanel {
         new TextField("Khách hàng*", "GuestID", "String"),
         new TextField("Phòng*", "RoomID", "String"),
         new TextField("Nhận phòng", "CheckIn", "Date"),
-        new TextField("Trả phòng", "CheckOut", "Date"),
-        new TextField("Tổng phí", "TotalPrice", "Number")
+        new TextField("Trả phòng", "CheckOut", "Date")
     };
     private final int idColumn = textFields.length;
 
@@ -235,11 +235,10 @@ public class Booking extends javax.swing.JPanel {
             }
             fields[0] = result.get("GuestFullName");
             fields[1] = result.get("NumberRoom");
-            fields[6] = result.get("HotelName");
+            fields[5] = result.get("HotelName");
             model.addRow(fields);
         }
-        
-        
+
     }
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -284,11 +283,16 @@ public class Booking extends javax.swing.JPanel {
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
+        ShowView.Guest(panel.getTextField(0));
+        ShowView.Room(panel.getTextField(1));
+
 //        SET DATA MẶC ĐỊNH
         String[] defaultDatas = new String[textFields.length];
         for (int i = 0; i < textFields.length; i++) {
             defaultDatas[i] = table.getModel().getValueAt(row, i).toString();
         }
+        defaultDatas[0] = String.valueOf(Controller.GuestController.getID(defaultDatas[0]));
+        defaultDatas[1] = String.valueOf(Controller.RoomController.getID(defaultDatas[1]));
         panel.setData(defaultDatas);
 
         int result = JOptionPane.showConfirmDialog(
@@ -349,7 +353,7 @@ public class Booking extends javax.swing.JPanel {
                     }
                     fields[0] = result.get("GuestFullName");
                     fields[1] = result.get("NumberRoom");
-                    fields[6] = result.get("HotelName");
+                    fields[5] = result.get("HotelName");
                     model.addRow(fields);
                     break; // Thoát khỏi vòng lặp nếu đã tìm thấy kết quả trong hàng này
                 }
@@ -358,6 +362,16 @@ public class Booking extends javax.swing.JPanel {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void bookingDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookingDetailButtonActionPerformed
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Vui lòng chọn nội dung!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
         ShowBookingDetail.show(table, table.getSelectedRow());
     }//GEN-LAST:event_bookingDetailButtonActionPerformed
 

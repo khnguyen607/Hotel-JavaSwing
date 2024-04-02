@@ -16,7 +16,11 @@ public class StaffController {
     public static void delete(int id) {
         StaffModel.mDelete(id);
     }
-
+    
+    public static void deleteWhere(String condition) {
+        StaffModel.mDeleteWhere(condition);
+    }
+    
     public static void insert(Map<String, Object> data) {
         StaffModel.mInsert(data);
     }

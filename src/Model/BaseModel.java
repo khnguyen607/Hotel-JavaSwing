@@ -34,6 +34,31 @@ public class BaseModel {
         return dataList;
     }
 
+    public static Map<String, Object> bmGetByID(String tableName, int id) {
+        Map<String, Object> rowData = new HashMap<>();
+        try (Connection conn = ConnectDB.getConnection()) {
+            String sql = "SELECT * FROM " + tableName + " WHERE ID = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        // Lấy các cột dữ liệu từ ResultSet
+                        ResultSetMetaData metaData = rs.getMetaData();
+                        int columnCount = metaData.getColumnCount();
+                        for (int i = 1; i <= columnCount; i++) {
+                            String columnName = metaData.getColumnName(i);
+                            Object value = rs.getObject(i);
+                            rowData.put(columnName, value);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return rowData;
+    }
+
     // Hàm xóa dữ liệu từ bảng được chỉ định dựa trên ID
     public static void bmDelete(String tableName, int id) {
         try (Connection conn = ConnectDB.getConnection()) {
@@ -42,6 +67,19 @@ public class BaseModel {
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
                 System.out.println("Đã xóa thành công dữ liệu với ID = " + id + " từ bảng " + tableName);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void bmDeleteWhere(String tableName, String condition) {
+        try (Connection conn = ConnectDB.getConnection()) {
+            String sql = "DELETE FROM " + tableName + " WHERE " + condition;
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println("Số dòng bị xóa: " + rowsAffected);
+                System.out.println("Đã xóa thành công dữ liệu từ bảng " + tableName + " với điều kiện: " + condition);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -107,5 +145,5 @@ public class BaseModel {
             ex.printStackTrace();
         }
     }
- 
+
 }
