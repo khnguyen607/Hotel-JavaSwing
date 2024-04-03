@@ -13,8 +13,17 @@ public class RoomController {
         return RoomModel.mGetAll();
     }
 
+    public static Map<String, Object> getByID(int id) {
+        return RoomModel.mGetByID(id);
+    }
+
     public static void delete(int id) {
+        BookingController.deleteWhere("RoomID="+id);
         RoomModel.mDelete(id);
+    }
+
+    public static void deleteWhere(String condition) {
+        RoomModel.mDeleteWhere(condition);
     }
 
     public static void insert(Map<String, Object> data) {
@@ -35,8 +44,8 @@ public class RoomController {
 
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
-        List<Map<String, Object>> data = getAll();
-        System.out.println(data);
+//        List<Map<String, Object>> data = getAll();
+//        System.out.println(data);
 
     }
 }

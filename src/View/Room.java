@@ -11,6 +11,7 @@ import Controller.*;
 import com.raven.component.CreateOrEditForm;
 import com.raven.model.TextField;
 import com.raven.event.*;
+import java.awt.Component;
 
 public class Room extends javax.swing.JPanel {
 
@@ -19,6 +20,8 @@ public class Room extends javax.swing.JPanel {
     private final TextField[] textFields = new TextField[]{
         new TextField("Khách sạn*", "HotelID", "Number"),
         new TextField("Loại phòng*", "RoomTypeID", "Number"),
+        new TextField("Số phòng", "NumberRoom", "String"),
+        new TextField("Giá phòng", "Price", "Number"),
         new TextField("Trạng thái", "Status", "String")
     };
     private final int idColumn = textFields.length;
@@ -191,7 +194,8 @@ public class Room extends javax.swing.JPanel {
     private void setColumn() {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
-        columnNames[textFields.length] = "ID";
+        columnNames[idColumn] = "ID";
+
         for (int i = 0; i < textFields.length; i++) {
             columnNames[i] = textFields[i].getLabel();
         }
@@ -265,6 +269,11 @@ public class Room extends javax.swing.JPanel {
         Object value = table.getModel().getValueAt(row, idColumn);
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+        panel.remove(panel.getTextField(4));
+        // Thêm JComboBox vào JPanel
+        String[] options = {"Trống", "Đang sử dụng", "Đã được đặt"};
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        panel.add(comboBox);
 
         ShowView.Hotel(panel.getTextField(0));
         ShowView.RoomType(panel.getTextField(1));
@@ -277,7 +286,7 @@ public class Room extends javax.swing.JPanel {
         defaultDatas[0] = Integer.toString(HotelController.getID(defaultDatas[0]));
         defaultDatas[1] = Integer.toString(RoomTypeController.getID(defaultDatas[1]));
         panel.setData(defaultDatas);
-
+        comboBox.setSelectedItem(table.getModel().getValueAt(row, 4).toString());
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,
@@ -298,6 +307,11 @@ public class Room extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+        panel.remove(panel.getTextField(4));
+        // Thêm JComboBox vào JPanel
+        String[] options = {"Trống", "Đang sử dụng", "Đã được đặt"};
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        panel.add(comboBox);
 
         ShowView.Hotel(panel.getTextField(0));
         ShowView.RoomType(panel.getTextField(1));

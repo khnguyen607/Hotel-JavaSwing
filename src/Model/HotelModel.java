@@ -17,6 +17,10 @@ public class HotelModel extends BaseModel {
         bmDelete(TABLE_NAME, id);
     }
 
+    public static void mDeleteWhere(String condition) {
+        bmDeleteWhere(TABLE_NAME, condition);
+    }
+
     public static void mInsert(Map<String, Object> data) {
         if (TABLE_NAME == null || TABLE_NAME.isEmpty() || data == null || data.isEmpty()) {
             return; // Dừng phương thức nếu các tham số không hợp lệ

@@ -16,7 +16,6 @@ public class RoomType extends javax.swing.JPanel {
     private final TextField[] textFields = new TextField[]{
         new TextField("Tên phòng", "Name", "String"),
         new TextField("Thông tin chung", "Description", "String"),
-        new TextField("Giá phòng", "Price", "Number"),
         new TextField("Sức chứa", "Capicity", "Number")
     };
     private final int idColumn = textFields.length;

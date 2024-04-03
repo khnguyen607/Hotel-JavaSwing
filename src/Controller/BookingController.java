@@ -17,7 +17,14 @@ public class BookingController {
         BookingModel.mDelete(id);
     }
 
+    public static void deleteWhere(String condition) {
+        BookingModel.mDeleteWhere(condition);
+    }
+
     public static void insert(Map<String, Object> data) {
+        Map<String, Object> roomStatus = new HashMap<>();
+        roomStatus.put("Status", "Đã được đặt");
+        RoomController.update(Integer.parseInt(data.get("RoomID").toString()), roomStatus);
         BookingModel.mInsert(data);
     }
 
