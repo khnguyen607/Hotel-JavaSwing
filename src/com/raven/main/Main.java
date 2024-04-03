@@ -6,11 +6,16 @@ import javax.swing.JComponent;
 import com.raven.event.EventMenuSelected;
 import View.*;
 import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
 
-    public Main() {
+    public Main(String fullName, String permission) {
         initComponents();
+
+        System.out.println(fullName);
+        System.out.println(permission);
 
         setBackground(new Color(0, 0, 0, 0));
         menu.initMoving(Main.this);
@@ -22,19 +27,32 @@ public class Main extends javax.swing.JFrame {
                         setForm(new Booking());
                         break;
                     case 3:
-                        setForm(new Room());
+                        if (checkPermission(permission)) {
+                            setForm(new Room());
+                        }
                         break;
                     case 6:
-                        setForm(new Staff());
+                        if (checkPermission(permission)) {
+                            setForm(new Staff());
+                        }
                         break;
                     case 7:
                         setForm(new Guest());
                         break;
                     case 8:
-                        setForm(new RoomType());
+                        if (checkPermission(permission)) {
+                            setForm(new RoomType());
+                        }
                         break;
                     case 9:
-                        setForm(new Hotel());
+                        if (checkPermission(permission)) {
+                            setForm(new Hotel());
+                        }
+                        break;
+                    case 10:
+                        if (checkPermission(permission)) {
+                            setForm(new User());
+                        }
                         break;
                     default:
                         setForm(new Home());
@@ -45,6 +63,20 @@ public class Main extends javax.swing.JFrame {
         });
         //  set when system open start with home form
         setForm(new Home());
+    }
+
+    private boolean checkPermission(String permission) {
+        if (permission.equals("ADMIN")) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(
+                    Main.this,
+                    "Bạn không đủ thẩm quyền!",
+                    "Cảnh báo",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return false;
+        }
     }
 
     private void setForm(JComponent com) {
@@ -120,10 +152,16 @@ public class Main extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         FlatLightLaf.setup();
-        /* Create and display the form */
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Main().setVisible(true);
+//            }
+//        });
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new LoginForm().setVisible(true);
             }
         });
     }

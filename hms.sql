@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th4 03, 2024 lúc 10:28 AM
+-- Thời gian đã tạo: Th4 03, 2024 lúc 12:13 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -154,6 +154,29 @@ INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`
 (1, 1, 'Hoàng Minh Quang', 'Bảo vệ', 100000, '(+84) 849 484 984', 'minhquang@gmail.com'),
 (2, 2, 'Đặng Hải Minh', 'Lễ tân', 200000, '(+84) 894 894 948', 'haiminh@gmail.com');
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+CREATE TABLE `users` (
+  `ID` int NOT NULL,
+  `FullName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `UserName` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Permission` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`ID`, `FullName`, `UserName`, `Password`, `Permission`) VALUES
+(1, 'ADMIN', 'admin', 'admin', 'ADMIN'),
+(2, 'EMPLOYEE', 'employee', 'employee', 'EMPLOYEE'),
+(4, 'Minh Hoàng', 'minhhoang', '123456', 'EMPLOYEE');
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -200,6 +223,12 @@ ALTER TABLE `staffs`
   ADD KEY `staffs_staff` (`HotelID`);
 
 --
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -238,6 +267,12 @@ ALTER TABLE `roomtype`
 --
 ALTER TABLE `staffs`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
