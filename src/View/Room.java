@@ -194,7 +194,7 @@ public class Room extends javax.swing.JPanel {
         // Chuyển List<String> thành mảng String[]
         String[] columnNames = new String[textFields.length + 1];
         columnNames[idColumn] = "ID";
-        
+
         for (int i = 0; i < textFields.length; i++) {
             columnNames[i] = textFields[i].getLabel();
         }
@@ -301,7 +301,12 @@ public class Room extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
-
+        panel.remove(panel.getTextField(4));
+        // Thêm JComboBox vào JPanel
+        String[] options = {"Trống", "Đang sử dụng"};
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        panel.add(comboBox);
+        
         ShowView.Hotel(panel.getTextField(0));
         ShowView.RoomType(panel.getTextField(1));
 

@@ -6,8 +6,9 @@ import javax.swing.text.*;
 import java.text.ParseException;
 import java.awt.event.*;
 import java.util.Arrays;
-
+import java.util.List;
 import com.raven.model.TextField;
+import java.util.ArrayList;
 
 public class CreateOrEditForm extends JPanel {
 
@@ -79,21 +80,21 @@ public class CreateOrEditForm extends JPanel {
         }
     }
 
-    public String[] getData() {
-        String[] data = new String[textFields.length];
-        for (int i = 0; i < textFields.length; i++) {
-            Component component = textFields[i];
-            if (component instanceof JTextField) {
-                JTextField textField = (JTextField) component;
-                data[i] = textField.getText();
-            } else if (component instanceof JComboBox) {
-                JComboBox<?> comboBox = (JComboBox<?>) component;
-                Object selectedItem = comboBox.getSelectedItem();
-                data[i] = (selectedItem != null) ? selectedItem.toString() : null;
-            }
-        }
-        return data;
-    }
+//    public String[] getData() {
+//        String[] data = new String[textFields.length];
+//        for (int i = 0; i < textFields.length; i++) {
+//            Component component = textFields[i];
+//            if (component instanceof JTextField) {
+//                JTextField textField = (JTextField) component;
+//                data[i] = textField.getText();
+//            } else if (component instanceof JComboBox) {
+//                JComboBox<?> comboBox = (JComboBox<?>) component;
+//                Object selectedItem = comboBox.getSelectedItem();
+//                data[i] = (selectedItem != null) ? selectedItem.toString() : null;
+//            }
+//        }
+//        return data;
+//    }
 
     public void setData(String[] fields) {
         for (int i = 0; i < textFields.length && i < fields.length; i++) {
@@ -101,9 +102,30 @@ public class CreateOrEditForm extends JPanel {
         }
     }
 
-    public JTextField getTextField(int index){
+    public JTextField getTextField(int index) {
         return textFields[index];
     }
+
+    // Hàm lấy dữ liệu từ các thành phần của panel
+    public String[] getData() {
+        List<String> dataList = new ArrayList<>();
+        Component[] components = this.getComponents();
+        for (Component component : components) {
+            if (component instanceof JTextField) {
+                JTextField textField = (JTextField) component;
+                dataList.add(textField.getText());
+            } else if (component instanceof JComboBox) {
+                JComboBox<?> comboBox = (JComboBox<?>) component;
+                Object selectedItem = comboBox.getSelectedItem();
+                if (selectedItem != null) {
+                    dataList.add(selectedItem.toString());
+                }
+            }
+        }
+        // Convert danh sách List<String> sang mảng String[] và trả về
+        return dataList.toArray(new String[0]);
+    }
+
 //    public static void main(String[] args) {
 //        TextField[] labels = new TextField[]{
 //            new TextField("Họ tên", "FullName", "String"),
