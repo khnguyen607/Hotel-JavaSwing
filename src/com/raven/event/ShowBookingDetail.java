@@ -56,17 +56,13 @@ public class ShowBookingDetail {
 
         // Xử lý khi người dùng chọn nút
         if (result == JOptionPane.OK_OPTION) {
-            Object value = table.getModel().getValueAt(selected, 4);
-            int id = Integer.parseInt(value.toString());
             Map<String, Object> temp = new HashMap<>();
             temp.put("Status", "Đang sử dụng");
-            RoomController.update(id, temp);
-        } else if (result == JOptionPane.CANCEL_OPTION) {
-            Object value = table.getModel().getValueAt(selected, 4);
-            int id = Integer.parseInt(value.toString());
+            RoomController.update(RoomController.getID(table.getModel().getValueAt(selected, 1).toString()), temp);
+        } else {
             Map<String, Object> temp = new HashMap<>();
             temp.put("Status", "Trống");
-            RoomController.update(id, temp);
+            RoomController.update(RoomController.getID(table.getModel().getValueAt(selected, 1).toString()), temp);
         }
     }
 

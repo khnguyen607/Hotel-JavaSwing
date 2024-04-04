@@ -11,6 +11,9 @@ import com.raven.component.*;
 import com.raven.event.ShowBookingDetail;
 import com.raven.event.ShowView;
 import com.raven.model.TextField;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Booking extends javax.swing.JPanel {
 
@@ -284,7 +287,7 @@ public class Booking extends javax.swing.JPanel {
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
         ShowView.Guest(panel.getTextField(0));
-        ShowView.Room(panel.getTextField(1));
+        ShowView.RoomForEmployee(panel.getTextField(1));
 
 //        SET DATA MẶC ĐỊNH
         String[] defaultDatas = new String[textFields.length];
@@ -303,12 +306,35 @@ public class Booking extends javax.swing.JPanel {
         );
         if (result == JOptionPane.OK_OPTION) {
             String[] input = panel.getData();
-            Map<String, Object> data = new HashMap<>();
-            for (int i = 0; i < textFields.length; i++) {
-                data.put(textFields[i].getField(), input[i].trim());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate checkIn = null;
+            LocalDate checkOut = null;
+
+            try {
+                // Kiểm tra xem chuỗi ngày có đúng định dạng không
+                checkIn = LocalDate.parse(input[2], formatter);
+                checkOut = LocalDate.parse(input[3], formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Định dạng ngày không hợp lệ");
             }
-            BookingController.update(id, data);
-            showDataTable();
+            
+            if ((!BookingController.isBookingConflict(Integer.valueOf(input[1]), input[2], input[3])) && checkIn.isBefore(checkOut)) {
+                // Ngày tháng hợp lệ, tiến hành insert dữ liệu
+                Map<String, Object> data = new HashMap<>();
+                for (int i = 0; i < textFields.length; i++) {
+                    data.put(textFields[i].getField(), input[i].trim());
+                }
+                BookingController.insert(data);
+                showDataTable();
+            } else {
+                // Ngày tháng không hợp lệ, hiển thị thông báo lỗi
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Ngày tháng không hợp lệ!",
+                        "Lỗi",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
 
     }//GEN-LAST:event_editButtonActionPerformed
@@ -317,7 +343,7 @@ public class Booking extends javax.swing.JPanel {
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
 
         ShowView.Guest(panel.getTextField(0));
-        ShowView.Room(panel.getTextField(1));
+        ShowView.RoomForEmployee(panel.getTextField(1));
 
         int result = JOptionPane.showConfirmDialog(
                 null,
@@ -325,15 +351,40 @@ public class Booking extends javax.swing.JPanel {
                 "Thêm mới",
                 JOptionPane.OK_CANCEL_OPTION
         );
+
         if (result == JOptionPane.OK_OPTION) {
             String[] input = panel.getData();
-            Map<String, Object> data = new HashMap<>();
-            for (int i = 0; i < textFields.length; i++) {
-                data.put(textFields[i].getField(), input[i].trim());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate checkIn = null;
+            LocalDate checkOut = null;
+
+            try {
+                // Kiểm tra xem chuỗi ngày có đúng định dạng không
+                checkIn = LocalDate.parse(input[2], formatter);
+                checkOut = LocalDate.parse(input[3], formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Định dạng ngày không hợp lệ");
             }
-            BookingController.insert(data);
-            showDataTable();
+            
+            if ((!BookingController.isBookingConflict(Integer.valueOf(input[1]), input[2], input[3])) && checkIn.isBefore(checkOut)) {
+                // Ngày tháng hợp lệ, tiến hành insert dữ liệu
+                Map<String, Object> data = new HashMap<>();
+                for (int i = 0; i < textFields.length; i++) {
+                    data.put(textFields[i].getField(), input[i].trim());
+                }
+                BookingController.insert(data);
+                showDataTable();
+            } else {
+                // Ngày tháng không hợp lệ, hiển thị thông báo lỗi
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Ngày tháng không hợp lệ!",
+                        "Lỗi",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
