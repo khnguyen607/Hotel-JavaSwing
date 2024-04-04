@@ -55,14 +55,14 @@ public class Main extends javax.swing.JFrame {
                         }
                         break;
                     default:
-                        setForm(new Home());
+                        setForm(new RoomForEmployee());
                         break;
                 }
             }
 
         });
         //  set when system open start with home form
-        setForm(new Home());
+        setForm(new RoomForEmployee());
     }
 
     private boolean checkPermission(String permission) {

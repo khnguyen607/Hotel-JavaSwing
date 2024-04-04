@@ -34,16 +34,40 @@ public class ShowBookingDetail {
         // Tính toán khoảng cách số ngày giữa hai ngày
         long daysBetween = ChronoUnit.DAYS.between(LocalDate.parse(data.get("CheckIn"), formatter), LocalDate.parse(data.get("CheckOut"), formatter));
         long pricePerDay = (int) room.get("Price");
-        data.put("rentDay", String.valueOf( (daysBetween+1)));
-        data.put("TotalPrice", String.valueOf( (daysBetween+1)*pricePerDay ));
-        
+        data.put("rentDay", String.valueOf((daysBetween + 1)));
+        data.put("TotalPrice", String.valueOf((daysBetween + 1) * pricePerDay));
+
         BookingDetail panel = new BookingDetail(data); // Đổi thành panel cần hiển thị
-        JOptionPane.showMessageDialog(
+//        JOptionPane.showMessageDialog(
+//                null,
+//                panel,
+//                "Chi tiết đặt phòng",
+//                JOptionPane.PLAIN_MESSAGE
+//        );
+        int result = JOptionPane.showOptionDialog(
                 null,
                 panel,
                 "Chi tiết đặt phòng",
-                JOptionPane.PLAIN_MESSAGE
-        );
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                new String[]{"Nhận phòng", "Trả phòng"},
+                null);
+
+        // Xử lý khi người dùng chọn nút
+        if (result == JOptionPane.OK_OPTION) {
+            Object value = table.getModel().getValueAt(selected, 4);
+            int id = Integer.parseInt(value.toString());
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("Status", "Đang sử dụng");
+            RoomController.update(id, temp);
+        } else if (result == JOptionPane.CANCEL_OPTION) {
+            Object value = table.getModel().getValueAt(selected, 4);
+            int id = Integer.parseInt(value.toString());
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("Status", "Trống");
+            RoomController.update(id, temp);
+        }
     }
 
 }

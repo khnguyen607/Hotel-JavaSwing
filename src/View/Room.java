@@ -338,7 +338,7 @@ public class Room extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        List<Map<String, Object>> results = RoomController.getAll();
+        List<Map<String, Object>> results = RoomController.getAllFK();
         for (Map<String, Object> result : results) {
             for (Object value : result.values()) {
                 if (value != null && value.toString().toLowerCase().contains(search)) {
@@ -348,6 +348,8 @@ public class Room extends javax.swing.JPanel {
                     for (int i = 0; i < textFields.length; i++) {
                         fields[i] = result.get(textFields[i].getField());
                     }
+                    fields[0] = result.get("HotelName");
+                    fields[1] = result.get("RoomTypeName");
                     model.addRow(fields);
                     break; // Thoát khỏi vòng lặp nếu đã tìm thấy kết quả trong hàng này
                 }
