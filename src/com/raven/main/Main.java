@@ -166,6 +166,9 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    public static void test() {
+        System.out.print("Hello Root");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.component.Header header2;
     private javax.swing.JPanel mainPanel;

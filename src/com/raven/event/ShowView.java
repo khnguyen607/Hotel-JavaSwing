@@ -4,10 +4,33 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import View.*;
+import com.formdev.flatlaf.FlatLightLaf;
 
 public class ShowView {
 
+    public static void setPlaceHolder(JTextField textField) {
+        textField.setText("click đúp để chọn");
+        textField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                // Xóa placeholder khi focus vào
+                if (textField.getText().equals("click đúp để chọn")) {
+                    textField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Thêm placeholder khi focus ra (nếu không có dữ liệu)
+                if (textField.getText().isEmpty()) {
+                    textField.setText("click đúp để chọn");
+                }
+            }
+        });
+    }
+
     public static void Hotel(JTextField textField) {
+        setPlaceHolder(textField);
         textField.addMouseListener(new MouseAdapter() {
             long lastClickTime = 0;
 
@@ -37,6 +60,7 @@ public class ShowView {
     }
 
     public static void RoomType(JTextField textField) {
+        setPlaceHolder(textField);
         textField.addMouseListener(new MouseAdapter() {
             long lastClickTime = 0;
 
@@ -66,6 +90,7 @@ public class ShowView {
     }
 
     public static void Room(JTextField textField) {
+        setPlaceHolder(textField);
         textField.addMouseListener(new MouseAdapter() {
             long lastClickTime = 0;
 
@@ -95,6 +120,7 @@ public class ShowView {
     }
 
     public static void Guest(JTextField textField) {
+        setPlaceHolder(textField);
         textField.addMouseListener(new MouseAdapter() {
             long lastClickTime = 0;
 
@@ -124,6 +150,7 @@ public class ShowView {
     }
 
     public static void RoomForEmployee(JTextField textField) {
+        setPlaceHolder(textField);
         textField.addMouseListener(new MouseAdapter() {
             long lastClickTime = 0;
 

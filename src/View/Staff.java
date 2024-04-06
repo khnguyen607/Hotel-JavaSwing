@@ -21,7 +21,7 @@ public class Staff extends javax.swing.JPanel {
         new TextField("Mức lương", "Salary", "Number"),
         new TextField("Số điện thoại", "Phone", "Phone"),
         new TextField("Địa chỉ mail", "Email", "String"),
-        new TextField("Khách sạn làm việc*", "HotelID", "Number")
+        new TextField("Khách sạn làm việc*", "HotelID", "String")
     };
     private final int idColumn = textFields.length;
 

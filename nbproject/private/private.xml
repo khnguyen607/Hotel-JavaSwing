@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Staff.java</file>
-            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/com/raven/event/ShowBookingDetail.java</file>
-            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/com/raven/component/BookingDetail.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/Model/BookingModel.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/Controller/BookingController.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/View/Booking.java</file>
+            <file>file:/E:/DevHome/InDevelopment/Java/Hotel-JavaSwing/src/com/raven/datechooser/SelectedDate.java</file>
         </group>
     </open-files>
 </project-private>

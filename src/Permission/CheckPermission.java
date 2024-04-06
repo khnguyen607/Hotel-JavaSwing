@@ -7,7 +7,7 @@ public class CheckPermission {
 
     private String permission;
     private String fullName;
-
+    
     public String getPermission() {
         return permission;
     }
@@ -18,7 +18,7 @@ public class CheckPermission {
 
     // Hàm kiểm tra tài khoản và mật khẩu
     public boolean checkPermission(String username, String password) {
-        String query = "SELECT Permission, FullName FROM users WHERE username = ? AND password = ?";
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
@@ -26,6 +26,11 @@ public class CheckPermission {
             if (rs.next()) {
                 permission = rs.getString("Permission");
                 fullName = rs.getString("FullName");
+//                Khởi tạo user dùng chung
+                Permission.User user = Permission.User.getInstance();
+                user.setFullName(fullName);
+                user.setPermission(permission);
+                user.setID(rs.getInt("ID"));
                 return true; // Trả về true nếu tài khoản và mật khẩu đúng
             }
             return false; // Trả về false nếu không tìm thấy tài khoản và mật khẩu

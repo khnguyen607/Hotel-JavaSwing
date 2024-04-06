@@ -18,8 +18,8 @@ public class Room extends javax.swing.JPanel {
     private final String tableName = "Phòng khách sạn";
 
     private final TextField[] textFields = new TextField[]{
-        new TextField("Khách sạn*", "HotelID", "Number"),
-        new TextField("Loại phòng*", "RoomTypeID", "Number"),
+        new TextField("Khách sạn*", "HotelID", "String"),
+        new TextField("Loại phòng*", "RoomTypeID", "String"),
         new TextField("Số phòng", "NumberRoom", "String"),
         new TextField("Giá phòng", "Price", "Number"),
         new TextField("Trạng thái", "Status", "String")

@@ -11,9 +11,12 @@ import com.raven.component.*;
 import com.raven.event.ShowBookingDetail;
 import com.raven.event.ShowView;
 import com.raven.model.TextField;
+import java.awt.Component;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import Permission.User;
 
 public class Booking extends javax.swing.JPanel {
 
@@ -23,9 +26,14 @@ public class Booking extends javax.swing.JPanel {
         new TextField("Khách hàng*", "GuestID", "String"),
         new TextField("Phòng*", "RoomID", "String"),
         new TextField("Nhận phòng", "CheckIn", "Date"),
-        new TextField("Trả phòng", "CheckOut", "Date")
+        new TextField("Trả phòng", "CheckOut", "Date"),
+        new TextField("Người tạo đơn", "UserID", "String")
     };
     private final int idColumn = textFields.length;
+
+    public static void HelloWorld() {
+
+    }
 
     public Booking() {
         initComponents();
@@ -49,6 +57,8 @@ public class Booking extends javax.swing.JPanel {
 
 //        HIỂN THỊ DỮ LIỆU LẦN ĐẦU 
         showDataTable();
+
+        System.out.print(User.getInstance().getID());
     }
 
     @SuppressWarnings("unchecked")
@@ -238,7 +248,8 @@ public class Booking extends javax.swing.JPanel {
             }
             fields[0] = result.get("GuestFullName");
             fields[1] = result.get("NumberRoom");
-            fields[5] = result.get("HotelName");
+            fields[6] = result.get("HotelName");
+            fields[4] = UserController.getName(Integer.valueOf(fields[4].toString()));
             model.addRow(fields);
         }
 
@@ -285,6 +296,8 @@ public class Booking extends javax.swing.JPanel {
         Object value = table.getModel().getValueAt(row, idColumn);
         int id = Integer.parseInt(value.toString());
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
+        panel.remove(8);
+        panel.remove(panel.getTextField(4));
 
         ShowView.Guest(panel.getTextField(0));
         ShowView.RoomForEmployee(panel.getTextField(1));
@@ -317,14 +330,15 @@ public class Booking extends javax.swing.JPanel {
             } catch (DateTimeParseException e) {
                 System.out.println("Định dạng ngày không hợp lệ");
             }
-            
+
             if ((!BookingController.isBookingConflict(Integer.valueOf(input[1]), input[2], input[3])) && checkIn.isBefore(checkOut)) {
                 // Ngày tháng hợp lệ, tiến hành insert dữ liệu
                 Map<String, Object> data = new HashMap<>();
-                for (int i = 0; i < textFields.length; i++) {
+                for (int i = 0; i < textFields.length - 1; i++) {
                     data.put(textFields[i].getField(), input[i].trim());
                 }
-                BookingController.insert(data);
+                data.put("UserID", User.getInstance().getID());
+                BookingController.update(id, data);
                 showDataTable();
             } else {
                 // Ngày tháng không hợp lệ, hiển thị thông báo lỗi
@@ -341,7 +355,8 @@ public class Booking extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateOrEditForm panel = new CreateOrEditForm(textFields);
-
+        panel.remove(8);
+        panel.remove(panel.getTextField(4));
         ShowView.Guest(panel.getTextField(0));
         ShowView.RoomForEmployee(panel.getTextField(1));
 
@@ -365,13 +380,14 @@ public class Booking extends javax.swing.JPanel {
             } catch (DateTimeParseException e) {
                 System.out.println("Định dạng ngày không hợp lệ");
             }
-            
+
             if ((!BookingController.isBookingConflict(Integer.valueOf(input[1]), input[2], input[3])) && checkIn.isBefore(checkOut)) {
                 // Ngày tháng hợp lệ, tiến hành insert dữ liệu
                 Map<String, Object> data = new HashMap<>();
-                for (int i = 0; i < textFields.length; i++) {
+                for (int i = 0; i < textFields.length - 1; i++) {
                     data.put(textFields[i].getField(), input[i].trim());
                 }
+                data.put("UserID", User.getInstance().getID());
                 BookingController.insert(data);
                 showDataTable();
             } else {
@@ -404,7 +420,8 @@ public class Booking extends javax.swing.JPanel {
                     }
                     fields[0] = result.get("GuestFullName");
                     fields[1] = result.get("NumberRoom");
-                    fields[5] = result.get("HotelName");
+                    fields[6] = result.get("HotelName");
+                    fields[4] = UserController.getName(Integer.valueOf(fields[4].toString()));
                     model.addRow(fields);
                     break; // Thoát khỏi vòng lặp nếu đã tìm thấy kết quả trong hàng này
                 }

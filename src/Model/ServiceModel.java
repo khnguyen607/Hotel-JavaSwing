@@ -5,9 +5,9 @@ import java.util.*;
 
 import Core.ConnectDB;
 
-public class UserModel extends BaseModel {
+public class ServiceModel extends BaseModel {
 
-    private static final String TABLE_NAME = "users";
+    private static final String TABLE_NAME = "services";
 
     public static List<Map<String, Object>> mGetAll() {
         return bmGetAll(TABLE_NAME);
@@ -16,7 +16,7 @@ public class UserModel extends BaseModel {
     public static void mDelete(int id) {
         bmDelete(TABLE_NAME, id);
     }
-
+    
     public static void mDeleteWhere(String condition) {
         bmDeleteWhere(TABLE_NAME, condition);
     }
@@ -35,21 +35,12 @@ public class UserModel extends BaseModel {
         bmUpdate(TABLE_NAME, id, data);
     }
 
-    public static String mgetName(int ID) {
-        String FullName = null; // Giá trị mặc định trả về nếu không tìm thấy tên khách sạn
-
-        String sql = "SELECT FullName FROM users WHERE ID = ?";
-        try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, ID); // Thêm tham số chuẩn hóa
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    FullName = rs.getString("FullName");
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public static List<Map<String, Object>> mGetAllFK() {
+        List<Map<String, Object>> results = bmGetAll(TABLE_NAME);
+        for (int i = 0; i < results.size(); i++) {
+            Map<String, Object> map = results.get(i);
+            map.put("HotelName", HotelModel.mgetName(((Integer) map.get("HotelID")).intValue()));
         }
-        return FullName;
+        return results;
     }
 }
