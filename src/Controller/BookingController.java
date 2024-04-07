@@ -48,6 +48,9 @@ public class BookingController {
         return BookingModel.mGetBookingService(BookingID);
     }
     
+    public static List<Map<String, Object>> GetRevenue(String selectedMonth) {
+        return BookingModel.mGetRevenue(selectedMonth);
+    }
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
 //        List<Map<String, Object>> data = getAll();

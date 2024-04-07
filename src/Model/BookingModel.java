@@ -108,7 +108,7 @@ public class BookingModel extends BaseModel {
     public static List<Map<String, Object>> mGetBookingService(int BookingID) {
         List<Map<String, Object>> dataList = new ArrayList<>();
         try (Connection conn = ConnectDB.getConnection()) {
-            String sql = "SELECT syn_booking_services.*, services.Name, services.Price FROM syn_booking_services INNER JOIN services ON syn_booking_services.ServiceID=services.ID WHERE BookingID = "+BookingID;
+            String sql = "SELECT syn_booking_services.*, services.Name, services.Price FROM syn_booking_services INNER JOIN services ON syn_booking_services.ServiceID=services.ID WHERE BookingID = " + BookingID;
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
@@ -131,4 +131,93 @@ public class BookingModel extends BaseModel {
         return dataList;
     }
 
+//    public static List<Map<String, Object>> mGetRevenue() {
+//        List<Map<String, Object>> dataList = new ArrayList<>();
+//        try (Connection conn = ConnectDB.getConnection()) {
+//            String sql = "SELECT \n"
+//                    + "    booking.CheckIn AS dayRent, \n"
+//                    + "    guests.FullName AS humanRent, \n"
+//                    + "    COALESCE((DATEDIFF(booking.CheckOut, booking.CheckIn) + 1) * rooms.Price, 0) AS roomPrice,\n"
+//                    + "    COALESCE(COUNT(syn_booking_services.BookingID), 0) AS serviceCount,\n"
+//                    + "    COALESCE(SUM(services.Price), 0) AS servicePrice,\n"
+//                    + "    COALESCE((DATEDIFF(booking.CheckOut, booking.CheckIn) + 1) * rooms.Price, 0) + COALESCE(SUM(services.Price), 0) AS totalPrice\n"
+//                    + "FROM \n"
+//                    + "    booking \n"
+//                    + "INNER JOIN \n"
+//                    + "    guests ON booking.GuestID = guests.ID \n"
+//                    + "INNER JOIN \n"
+//                    + "    rooms ON booking.RoomID = rooms.ID\n"
+//                    + "LEFT JOIN\n"
+//                    + "    syn_booking_services ON booking.ID = syn_booking_services.BookingID\n"
+//                    + "LEFT JOIN\n"
+//                    + "    services ON syn_booking_services.ServiceID = services.ID\n"
+//                    + "GROUP BY\n"
+//                    + "    booking.ID, booking.CheckIn, guests.FullName, rooms.Price, booking.CheckOut;";
+//            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+//                try (ResultSet rs = stmt.executeQuery()) {
+//                    while (rs.next()) {
+//                        // Lấy các cột dữ liệu từ ResultSet
+//                        ResultSetMetaData metaData = rs.getMetaData();
+//                        int columnCount = metaData.getColumnCount();
+//                        Map<String, Object> rowData = new HashMap<>();
+//                        for (int i = 1; i <= columnCount; i++) {
+//                            String columnName = metaData.getColumnLabel(i);
+//                            Object value = rs.getObject(i);
+//                            rowData.put(columnName, value);
+//                        }
+//                        dataList.add(rowData);
+//                    }
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return dataList;
+//    }
+    public static List<Map<String, Object>> mGetRevenue(String selectedMonth) {
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        try (Connection conn = ConnectDB.getConnection()) {
+            String sql = "SELECT \n"
+                    + "    booking.CheckIn AS dayRent, \n"
+                    + "    guests.FullName AS humanRent, \n"
+                    + "    COALESCE((DATEDIFF(booking.CheckOut, booking.CheckIn) + 1) * rooms.Price, 0) AS roomPrice,\n"
+                    + "    COALESCE(COUNT(syn_booking_services.BookingID), 0) AS serviceCount,\n"
+                    + "    COALESCE(SUM(services.Price), 0) AS servicePrice,\n"
+                    + "    COALESCE((DATEDIFF(booking.CheckOut, booking.CheckIn) + 1) * rooms.Price, 0) + COALESCE(SUM(services.Price), 0) AS totalPrice\n"
+                    + "FROM \n"
+                    + "    booking \n"
+                    + "INNER JOIN \n"
+                    + "    guests ON booking.GuestID = guests.ID \n"
+                    + "INNER JOIN \n"
+                    + "    rooms ON booking.RoomID = rooms.ID\n"
+                    + "LEFT JOIN\n"
+                    + "    syn_booking_services ON booking.ID = syn_booking_services.BookingID\n"
+                    + "LEFT JOIN\n"
+                    + "    services ON syn_booking_services.ServiceID = services.ID\n"
+                    + "WHERE\n"
+                    + "    MONTH(booking.CheckIn) = ?\n"
+                    + "GROUP BY\n"
+                    + "    booking.ID, booking.CheckIn, guests.FullName, rooms.Price, booking.CheckOut;";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, selectedMonth);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        // Lấy các cột dữ liệu từ ResultSet
+                        ResultSetMetaData metaData = rs.getMetaData();
+                        int columnCount = metaData.getColumnCount();
+                        Map<String, Object> rowData = new HashMap<>();
+                        for (int i = 1; i <= columnCount; i++) {
+                            String columnName = metaData.getColumnLabel(i);
+                            Object value = rs.getObject(i);
+                            rowData.put(columnName, value);
+                        }
+                        dataList.add(rowData);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return dataList;
+    }
 }

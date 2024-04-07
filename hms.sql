@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th4 04, 2024 lúc 02:36 AM
+-- Thời gian đã tạo: Th4 07, 2024 lúc 12:38 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -32,8 +32,21 @@ CREATE TABLE `booking` (
   `GuestID` int NOT NULL,
   `RoomID` int NOT NULL,
   `CheckIn` date NOT NULL,
-  `CheckOut` date NOT NULL
+  `CheckOut` date NOT NULL,
+  `UserID` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `booking`
+--
+
+INSERT INTO `booking` (`ID`, `GuestID`, `RoomID`, `CheckIn`, `CheckOut`, `UserID`) VALUES
+(1, 6, 3, '2024-01-25', '2024-01-28', 2),
+(2, 3, 6, '2024-01-25', '2024-01-30', 1),
+(3, 2, 6, '2024-01-20', '2024-01-21', 1),
+(4, 5, 7, '2024-02-10', '2024-02-11', 1),
+(5, 4, 8, '2024-02-15', '2024-02-16', 1),
+(6, 4, 8, '2024-02-25', '2024-02-26', 1);
 
 -- --------------------------------------------------------
 
@@ -126,7 +139,7 @@ CREATE TABLE `rooms` (
 
 INSERT INTO `rooms` (`ID`, `NumberRoom`, `HotelID`, `RoomTypeID`, `Price`, `Status`) VALUES
 (1, '101', 1, 1, 1500, 'Trống'),
-(2, '102', 1, 2, 2000, 'Trống'),
+(2, '102', 1, 2, 2000, 'Đã được đặt'),
 (3, '103', 1, 3, 2500, 'Trống'),
 (4, '104', 1, 4, 3000, 'Trống'),
 (5, '105', 1, 5, 1800, 'Trống'),
@@ -258,6 +271,34 @@ INSERT INTO `roomtype` (`ID`, `Name`, `Description`, `Capacity`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `services`
+--
+
+CREATE TABLE `services` (
+  `ID` int NOT NULL,
+  `Name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Price` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `services`
+--
+
+INSERT INTO `services` (`ID`, `Name`, `Price`) VALUES
+(1, 'Phòng gym', 1500),
+(2, 'Spa', 1800),
+(3, 'Bể bơi ngoài trời', 2000),
+(4, 'Dịch vụ phòng', 1000),
+(5, 'Buffet sáng', 1200),
+(6, 'Đưa đón sân bay', 800),
+(7, 'Tour du lịch', 1800),
+(8, 'Dịch vụ giặt là', 600),
+(9, 'Dịch vụ hướng dẫn du lịch', 1500),
+(10, 'Dịch vụ đặt vé', 500);
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `staffs`
 --
 
@@ -279,7 +320,6 @@ INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`
 (1, 1, 'Nguyễn Văn A', 'Quản lý', 50000, '(+84) 123 456 789', 'nguyen.a@example.com'),
 (2, 2, 'Trần Thị B', 'Quản lý', 48000, '(+84) 234 567 890', 'tran.b@example.com'),
 (3, 3, 'Lê Văn C', 'Nhân viên lễ tân', 30000, '(+84) 345 678 901', 'le.c@example.com'),
-(4, 4, 'Phạm Thị D', 'Nhân viên lễ tân', 32000, '(+84) 456 789 012', 'pham.d@example.com'),
 (5, 5, 'Hoàng Văn E', 'Bảo vệ', 25000, '(+84) 567 890 123', 'hoang.e@example.com'),
 (6, 6, 'Trần Thị F', 'Bảo vệ', 24000, '(+84) 678 901 234', 'tran.f@example.com'),
 (7, 7, 'Nguyễn Văn G', 'Nhân viên phục vụ', 28000, '(+84) 789 012 345', 'nguyen.g@example.com'),
@@ -320,6 +360,26 @@ INSERT INTO `staffs` (`ID`, `HotelID`, `FullName`, `Position`, `Salary`, `Phone`
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `syn_booking_services`
+--
+
+CREATE TABLE `syn_booking_services` (
+  `ID` int NOT NULL,
+  `BookingID` int NOT NULL,
+  `ServiceID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `syn_booking_services`
+--
+
+INSERT INTO `syn_booking_services` (`ID`, `BookingID`, `ServiceID`) VALUES
+(1, 1, 4),
+(2, 1, 8);
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -350,7 +410,8 @@ INSERT INTO `users` (`ID`, `FullName`, `UserName`, `Password`, `Permission`) VAL
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `booking_guests` (`GuestID`),
-  ADD KEY `booking_rooms` (`RoomID`);
+  ADD KEY `booking_rooms` (`RoomID`),
+  ADD KEY `booking_users` (`UserID`);
 
 --
 -- Chỉ mục cho bảng `guests`
@@ -379,11 +440,25 @@ ALTER TABLE `roomtype`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Chỉ mục cho bảng `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Chỉ mục cho bảng `staffs`
 --
 ALTER TABLE `staffs`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `staffs_staff` (`HotelID`);
+
+--
+-- Chỉ mục cho bảng `syn_booking_services`
+--
+ALTER TABLE `syn_booking_services`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `syn_booking_services_booking` (`BookingID`),
+  ADD KEY `syn_booking_services_services` (`ServiceID`);
 
 --
 -- Chỉ mục cho bảng `users`
@@ -399,7 +474,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `guests`
@@ -426,10 +501,22 @@ ALTER TABLE `roomtype`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT cho bảng `services`
+--
+ALTER TABLE `services`
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT cho bảng `staffs`
 --
 ALTER TABLE `staffs`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT cho bảng `syn_booking_services`
+--
+ALTER TABLE `syn_booking_services`
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
@@ -446,7 +533,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `booking`
   ADD CONSTRAINT `booking_guests` FOREIGN KEY (`GuestID`) REFERENCES `guests` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `booking_rooms` FOREIGN KEY (`RoomID`) REFERENCES `rooms` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `booking_rooms` FOREIGN KEY (`RoomID`) REFERENCES `rooms` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `booking_users` FOREIGN KEY (`UserID`) REFERENCES `users` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Các ràng buộc cho bảng `rooms`
@@ -460,6 +548,13 @@ ALTER TABLE `rooms`
 --
 ALTER TABLE `staffs`
   ADD CONSTRAINT `staffs_staff` FOREIGN KEY (`HotelID`) REFERENCES `hotels` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Các ràng buộc cho bảng `syn_booking_services`
+--
+ALTER TABLE `syn_booking_services`
+  ADD CONSTRAINT `syn_booking_services_booking` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `syn_booking_services_services` FOREIGN KEY (`ServiceID`) REFERENCES `services` (`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
