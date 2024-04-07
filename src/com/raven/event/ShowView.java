@@ -179,4 +179,34 @@ public class ShowView {
         });
     }
 
+    public static void SynBookingService(JTextField textField, int BookingID) {
+        setPlaceHolder(textField);
+        textField.addMouseListener(new MouseAdapter() {
+            long lastClickTime = 0;
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastClickTime < 300) { // Threshold for double click
+                    handleDoubleClick(textField);
+                }
+                lastClickTime = currentTime;
+            }
+
+            private void handleDoubleClick(JTextField textField) {
+                // Handle double click action here
+                SynBookingService panel = new SynBookingService(BookingID);
+                int result = JOptionPane.showConfirmDialog(
+                        null,
+                        panel,
+                        "Chọn đối tượng phù hợp",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+                if (result == JOptionPane.OK_OPTION) {
+                    textField.setText(panel.getSelectedID()); // Đổi thành phương thức trả về giá trị cần hiển thị
+                }
+            }
+        });
+    }
+
 }

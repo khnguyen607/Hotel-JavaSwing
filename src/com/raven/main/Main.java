@@ -24,45 +24,58 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 switch (index) {
                     case 2:
-                        setForm(new Booking());
+                        setForm(new RoomForEmployee());
                         break;
                     case 3:
                         if (checkPermission(permission)) {
                             setForm(new Room());
                         }
+                        setForm(new Booking());
                         break;
-                    case 6:
+                    case 4:
+                        if (checkPermission(permission)) {
+                            setForm(new Room());
+                        }
+                        setForm(new Room());
+                        break;
+                    case 5:
+                        if (checkPermission(permission)) {
+                            setForm(new Room());
+                        }
+                        setForm(new Service());
+                        break;
+                    case 8:
                         if (checkPermission(permission)) {
                             setForm(new Staff());
                         }
                         break;
-                    case 7:
+                    case 9:
                         setForm(new Guest());
                         break;
-                    case 8:
+                    case 10:
                         if (checkPermission(permission)) {
                             setForm(new RoomType());
                         }
                         break;
-                    case 9:
+                    case 11:
                         if (checkPermission(permission)) {
                             setForm(new Hotel());
                         }
                         break;
-                    case 10:
+                    case 12:
                         if (checkPermission(permission)) {
                             setForm(new User());
                         }
                         break;
                     default:
-                        setForm(new RoomForEmployee());
+                        setForm(new Home());
                         break;
                 }
             }
 
         });
         //  set when system open start with home form
-        setForm(new RoomForEmployee());
+        setForm(new Home());
     }
 
     private boolean checkPermission(String permission) {

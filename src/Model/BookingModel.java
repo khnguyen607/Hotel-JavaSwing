@@ -78,14 +78,13 @@ public class BookingModel extends BaseModel {
     }
 
     public static boolean isBookingConflict(int roomID, String checkIn, String checkOut) {
-        String query = "SELECT COUNT(*) FROM booking " +
-                       "WHERE RoomID = ? " +
-                       "AND ((CheckIn BETWEEN ? AND ?) OR (CheckOut BETWEEN ? AND ?) OR " +
-                       "(CheckIn < ? AND CheckOut > ?))";
-        
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+        String query = "SELECT COUNT(*) FROM booking "
+                + "WHERE RoomID = ? "
+                + "AND ((CheckIn BETWEEN ? AND ?) OR (CheckOut BETWEEN ? AND ?) OR "
+                + "(CheckIn < ? AND CheckOut > ?))";
+
+        try (Connection conn = ConnectDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
             // Đặt các tham số cho câu truy vấn
             stmt.setInt(1, roomID);
             stmt.setString(2, checkIn);
@@ -94,7 +93,7 @@ public class BookingModel extends BaseModel {
             stmt.setString(5, checkOut);
             stmt.setString(6, checkIn);
             stmt.setString(7, checkOut);
-            
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 int count = rs.getInt(1);
@@ -105,4 +104,31 @@ public class BookingModel extends BaseModel {
         }
         return false; // Trả về false nếu có lỗi xảy ra hoặc không tìm thấy dữ liệu
     }
+
+    public static List<Map<String, Object>> mGetBookingService(int BookingID) {
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        try (Connection conn = ConnectDB.getConnection()) {
+            String sql = "SELECT syn_booking_services.*, services.Name, services.Price FROM syn_booking_services INNER JOIN services ON syn_booking_services.ServiceID=services.ID WHERE BookingID = "+BookingID;
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        // Lấy các cột dữ liệu từ ResultSet
+                        ResultSetMetaData metaData = rs.getMetaData();
+                        int columnCount = metaData.getColumnCount();
+                        Map<String, Object> rowData = new HashMap<>();
+                        for (int i = 1; i <= columnCount; i++) {
+                            String columnName = metaData.getColumnLabel(i);
+                            Object value = rs.getObject(i);
+                            rowData.put(columnName, value);
+                        }
+                        dataList.add(rowData);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return dataList;
+    }
+
 }

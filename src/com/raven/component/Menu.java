@@ -31,11 +31,12 @@ public class Menu extends javax.swing.JPanel {
 
     private void init() {
         listMenu1.addItem(new Model_Menu("", "Quản lý kinh doanh", Model_Menu.MenuType.TITLE));
-//        listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("1", "Quản lý phòng (Bởi nhân viên)", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("2", "Đơn đặt phòng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Toàn bộ phòng", Model_Menu.MenuType.MENU));
-
+        listMenu1.addItem(new Model_Menu("1", "Danh sách dịch vụ", Model_Menu.MenuType.MENU));
+        
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("", "Quản lý thông tin chung", Model_Menu.MenuType.TITLE));
 

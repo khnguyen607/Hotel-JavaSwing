@@ -5,9 +5,9 @@ import java.util.*;
 
 import Core.ConnectDB;
 
-public class ServiceModel extends BaseModel {
+public class SynBookingServiceModel extends BaseModel {
 
-    private static final String TABLE_NAME = "services";
+    private static final String TABLE_NAME = "syn_booking_services";
 
     public static List<Map<String, Object>> mGetAll() {
         return bmGetAll(TABLE_NAME);
@@ -16,7 +16,7 @@ public class ServiceModel extends BaseModel {
     public static void mDelete(int id) {
         bmDelete(TABLE_NAME, id);
     }
-    
+
     public static void mDeleteWhere(String condition) {
         bmDeleteWhere(TABLE_NAME, condition);
     }
@@ -34,6 +34,5 @@ public class ServiceModel extends BaseModel {
         }
         bmUpdate(TABLE_NAME, id, data);
     }
-
 
 }

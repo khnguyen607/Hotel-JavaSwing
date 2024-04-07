@@ -44,12 +44,16 @@ public class BookingController {
         return BookingModel.isBookingConflict(roomID, checkIn, checkOut);
     }
 
+    public static List<Map<String, Object>> GetBookingService(int BookingID){
+        return BookingModel.mGetBookingService(BookingID);
+    }
+    
     public static void main(String[] args) {
 //            HIỂN THỊ TOÀN BỘ KHÁCH HÀNG 
 //        List<Map<String, Object>> data = getAll();
 //        System.out.println(data);
 
         
-        System.out.print(isBookingConflict(2,"2024-04-21","2024-04-25"));
+        System.out.print(GetBookingService(1));
     }
 }
